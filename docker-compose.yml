@@ -1,0 +1,71 @@
+version: '2'
+volumes:
+    tmp: {}
+    consul_data: {}
+    jenkins_home: {}
+    database_data: {}
+services:
+    node:
+        container_name: node
+        build:
+            context: node
+            dockerfile: Dockerfile
+    jenkins:
+        build:
+            context: jenkins
+            dockerfile: Dockerfile
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - /usr/local/bin/docker:/usr/bin/docker
+            - jenkins_home:/var/jenkins_home
+            - ./jenkins:/var/jenkins
+            - /var/log/jenkins
+        env_file:
+            - ./shared/global.env
+        ports:
+            - 8080
+            - 50000
+    registrator:
+        container_name: registrator
+        image: devotox/registrator
+        volumes:
+            - /var/run/docker.sock:/tmp/docker.sock
+        depends_on:
+            - consul
+        links:
+            - consul
+        env_file:
+            - ./shared/global.env
+        environment:
+            - DOCKER_HOST_IP=$DOCKER_HOST_IP
+    consul:
+        container_name: consul
+        command: -data-dir=/data -ui-dir=/ui -server -bootstrap
+        image: progrium/consul
+        ports:
+            - 53
+            - 8301
+            - 8302
+            - 8400
+            - 53/udp
+            - 8301/udp
+            - 8302/udp
+            - 8300:8300
+            - 8500:8500
+        env_file:
+            - ./shared/global.env
+    consul-template:
+        container_name: consul-template
+        image: masm/consul-template
+        command: >
+            -consul consul:8500
+            -template /etc/nginx/templates/upstream_servers.ctmpl:/etc/nginx/conf.d/upstream_servers.conf
+            -template /etc/nginx/templates/upstream_stream_servers.ctmpl:/etc/nginx/conf.d/streams/upstream_servers.conf
+        volumes:
+            - /var/run/docker.sock:/tmp/docker.sock
+        depends_on:
+            - consul
+        links:
+            - consul
+        env_file:
+            - ./shared/global.env
