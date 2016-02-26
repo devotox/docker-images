@@ -27,7 +27,9 @@ services:
             - 50000
     registrator:
         container_name: registrator
-        image: devotox/registrator
+        build:
+            context: registrator
+            dockerfile: Dockerfile
         volumes:
             - /var/run/docker.sock:/tmp/docker.sock
         depends_on:

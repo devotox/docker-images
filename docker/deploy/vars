@@ -2,8 +2,6 @@
 
 # Docker deploy scripts variables
 
-aws_account_id="556352762989"
-
 machine_name="platform-dev-deploy"
 
-repository_url="$aws_account_id.dkr.ecr.us-east-1.amazonaws.com"
+repository_url="devotox"

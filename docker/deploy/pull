@@ -9,31 +9,20 @@ echo
 source docker/deploy/vars
 
 echo
-echo "Pull Images from ECR..."
-sh docker/deploy/run "docker pull $repository_url/platform_database:latest"
-sh docker/deploy/run "docker pull $repository_url/platform_jenkins:latest"
-sh docker/deploy/run "docker pull $repository_url/platform_server:latest"
-sh docker/deploy/run "docker pull $repository_url/platform_deploy:latest"
-
-sh docker/deploy/run "docker pull $repository_url/platform_intranet:latest"
-sh docker/deploy/run "docker pull $repository_url/platform_website:latest"
-sh docker/deploy/run "docker pull $repository_url/platform_api:latest"
+echo "Pull Images from Docker Hub..."
+sh docker/deploy/run "docker pull $repository_url/node:latest"
+sh docker/deploy/run "docker pull $repository_url/jenkins:latest"
+sh docker/deploy/run "docker pull $repository_url/registrator:latest"
 
 echo
-echo "Tag Images from ECR..."
-sh docker/deploy/run "docker tag $repository_url/platform_database:latest platform_database:latest"
-sh docker/deploy/run "docker tag $repository_url/platform_jenkins:latest platform_jenkins:latest"
-sh docker/deploy/run "docker tag $repository_url/platform_server:latest platform_server:latest"
-sh docker/deploy/run "docker tag $repository_url/platform_deploy:latest platform_deploy:latest"
-
-sh docker/deploy/run "docker tag $repository_url/platform_intranet:latest platform_intranet:latest"
-sh docker/deploy/run "docker tag $repository_url/platform_website:latest platform_website:latest"
-sh docker/deploy/run "docker tag $repository_url/platform_api:latest platform_api:latest"
+echo "Tag Images from Docker Hub..."
+sh docker/deploy/run "docker tag $repository_url/node:latest docker_node:latest"
+sh docker/deploy/run "docker tag $repository_url/jenkins:latest docker_jenkins:latest"
+sh docker/deploy/run "docker tag $repository_url/registrator:latest docker_registrator:latest"
 
 echo
 echo "Build Images..."
 docker-compose build
-docker-compose --file docker-compose-jenkins.yml build
 
 echo
 echo "Clean Images..."
