@@ -1,0 +1,19 @@
+#!/bin/bash
+
+echo
+echo "########################################################"
+echo "####        Clean Docker Images/Containers          ####"
+echo "########################################################"
+echo
+
+# Remove all lingering containers not in use
+echo "Remove Lingering Containers..."
+docker rm -f $(docker ps --no-trunc -aq)
+
+# Remove all volumes that are exited
+echo "Remove Exited Volumes..."
+docker rm -v $(docker ps --no-trunc -aqf status=exited)
+
+# Remove all intermediary images
+echo "Remove Dangling images..."
+docker rmi -f $(docker images -aqf "dangling=true")

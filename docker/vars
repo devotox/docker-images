@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Docker scripts variables
+
+machine_name="doctify-dev"

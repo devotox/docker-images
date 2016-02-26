@@ -1,0 +1,62 @@
+#!/bin/bash
+
+# This script is used to deploy app to elasticbeanstalk
+
+echo "########################################################"
+echo "####           Create Docker Application Zip        ####"
+echo "########################################################"
+echo
+
+# Retrieve from command line
+version=$1
+description=$2
+deploy_target=$3
+application_type=$4
+unix_timestamp="$(date +%s)"
+timestamp="$(date +'%d-%m-%Y')-$(date +'%H:%M:%S')"
+
+# If not entered in command line ask for details
+if [ -z "$version" ]
+then
+	read -p "Version: " version
+fi
+
+if [ -z "$description" ]
+then
+	read -p "Description: " description
+fi
+
+if [ -z "$deploy_target" ]
+then
+	read -p "Deploy Target [ doctify-testing | doctify-jenkins | doctify-intranet ]: " deploy_target
+fi
+
+if [ -z "$application_type" ]
+then
+	read -p "Application To Deploy [ intranet | website | jenkins | api | full-monty ]: " application_type
+fi
+
+types=("jenkins" "intranet" "website" "api" "full-monty")
+
+if [[ " ${types[@]} " =~ " ${application_type} " ]]; then
+    echo "Application Type Set ($application_type)..."
+else
+	echo "Incorrect Application Type. Select one of the choices above"
+	exit 1;
+fi
+
+echo
+# Copy the appropriate Dockerrun to root
+echo "Zipping $application_type..."
+cp -v "Dockerrun/$application_type.aws.json" "Dockerrun.aws.json"
+
+echo
+echo "Clean out all xattr"
+xattr -c {,**/}*
+
+echo
+echo  "Create zip file"
+zip "../deploy-$version-$timestamp.zip" -r * .[^.]*
+
+# Remove the Dockerrun json copied here
+rm -rfv "Dockerrun.aws.json"

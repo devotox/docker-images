@@ -1,0 +1,21 @@
+#!/bin/bash
+
+echo
+echo "########################################################"
+echo "####       Create Base Dockerrun.aws.json file      ####"
+echo "########################################################"
+echo
+
+source docker/deploy/vars
+
+source=$1
+destination="Dockerrun/aws.json"
+
+if [ -z "$source" ]
+then
+	source="docker-compose-jenkins.yml"
+fi
+
+echo
+echo "Creating Configuration for $source @ $destination..."
+cat "$source" | docker run --rm -i micahhausler/container-transform > $destination

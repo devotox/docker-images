@@ -1,0 +1,17 @@
+#!/bin/bash
+
+echo
+echo "########################################################"
+echo "####        Rebuild Docker Deploy Environment       ####"
+echo "########################################################"
+echo
+
+source docker/deploy/vars
+
+echo
+echo "Destroy Old Machine..."
+source docker/deploy/destroy
+
+echo
+echo "Setup New Machine..."
+source docker/deploy/setup

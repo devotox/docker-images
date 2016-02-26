@@ -1,0 +1,31 @@
+#!/bin/bash
+
+echo
+echo "########################################################"
+echo "####              Update Docker Dev Hosts           ####"
+echo "########################################################"
+echo
+
+source docker/vars
+
+source docker/functions
+
+echo
+# Get Current IP
+echo "Retrieving Current IP Address..."
+ip=($(cat /etc/hosts | grep doctify.local.com | sed -n '1p'))
+echo "Current IP: $ip"
+
+echo
+# Get IP address of docker machine
+echo "Get Current Machine IP address..."
+machine_ip=$(docker-machine ip $machine_name)
+echo "Machine IP: $machine_ip"
+
+echo
+if [ "$ip" = "$machine_ip" ]; then
+	echo "IP Addresses are matching. Exiting..."
+else
+	echo "IP Addresses differ. Updating..."
+	update_hosts
+fi

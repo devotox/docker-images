@@ -1,0 +1,44 @@
+#!/bin/bash
+
+echo
+echo "########################################################"
+echo "####         Uninstall Docker & Dependencies        ####"
+echo "########################################################"
+echo
+
+echo
+# Uninstall Virtualbox
+if type virtualbox > /dev/null 2>&1 ; then
+	echo "Virtualbox found, uninstalling..."
+	brew cask uninstall --force virtualbox
+else
+	echo "Virtualbox not found, already uninstalled..."
+fi
+
+echo
+# Uninstall Docker Toolbox ( docker, docker-compose, docker-machine, docker-machine-parallels )
+if type docker > /dev/null 2>&1 ; then
+	echo "Docker Toolbox found, uninstalling..."
+	brew uninstall --force docker-machine-parallels
+	brew cask uninstall --force dockertoolbox
+else
+	echo "Docker Toolbox not found, already uninstalled..."
+fi
+
+echo
+# Uninstall FSwatch
+if type fswatch > /dev/null 2>&1 ; then
+	echo "FS Watch found, uninstalling..."
+	brew uninstall --force fswatch
+else
+	echo "FS Watch found, already uninstalled..."
+fi
+
+echo
+# Uninstall Core Utilities
+if type greadlink > /dev/null 2>&1 ; then
+	echo "GNU core utilities found, uninstalling..."
+	brew uninstall --force coreutils
+else
+	echo "GNU core utilities not found, already uninstalled..."
+fi

@@ -1,0 +1,21 @@
+#!/bin/bash
+
+echo
+echo "########################################################"
+echo "####             Stop Docker Dev Environment        ####"
+echo "########################################################"
+echo
+
+source docker/vars
+
+echo
+echo "Stop Containers..."
+docker stop $(docker ps -aq)
+
+echo
+echo "Clean Containers..."
+source docker/clean
+
+echo
+echo "Stop Machine..."
+docker-machine stop $machine_name

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+echo
+echo "########################################################"
+echo "####       Enter Docker Deploy Environment          ####"
+echo "########################################################"
+echo
+
+source docker/deploy/vars
+
+source docker/deploy/banner
+
+echo
+echo "Entering Deployment Bash Terminal..."
+sh docker/deploy/run "bash"

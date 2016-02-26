@@ -1,0 +1,63 @@
+#!/bin/bash
+
+echo
+echo "########################################################"
+echo "####          Install Docker & Dependencies         ####"
+echo "########################################################"
+echo
+
+# Install/Update Homebrew
+if ! type brew > /dev/null 2>&1 ; then
+	echo "Homebrew not found, installing..."
+	ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+else
+	echo "Homebrew found, updating..."
+	brew uninstall --force brew-cask
+	brew update; brew upgrade
+fi
+
+echo
+# Install Virtualbox
+if ! type virtualbox > /dev/null 2>&1 ; then
+	echo "Virtualbox not found, installing..."
+	brew cask install virtualbox
+else
+	echo "Virtualbox found, skipping install..."
+fi
+
+echo
+# Install Docker Toolbox ( docker, docker-compose, docker-machine, docker-machine-parallels )
+if ! type docker > /dev/null 2>&1 ; then
+	echo "Docker Toolbox not found, installing..."
+	brew install docker-machine-parallels
+	brew cask install dockertoolbox
+else
+	echo "Docker Toolbox found, skipping install..."
+fi
+
+echo
+# Install FSwatch
+if ! type fswatch > /dev/null 2>&1 ; then
+	echo "FS Watch not found, installing..."
+	brew install fswatch
+else
+	echo "FS Watch found, skipping install..."
+fi
+
+echo
+# Install Core Utilities
+if ! type greadlink > /dev/null 2>&1 ; then
+	echo "GNU core utilities not found, installing..."
+	brew install coreutils
+else
+	echo "GNU core utilities found, skipping install..."
+fi
+
+echo
+# Install GNU Sed command
+if ! type sed > /dev/null 2>&1 ; then
+	echo "SED command not found, installing..."
+	brew install gnu-sed --with-default-names
+else
+	echo "SED command found, skipping install..."
+fi

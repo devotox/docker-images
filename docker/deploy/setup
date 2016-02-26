@@ -1,0 +1,34 @@
+#!/bin/bash
+
+echo
+echo "########################################################"
+echo "####         Setup Docker Deploy Environment        ####"
+echo "########################################################"
+echo
+
+source docker/deploy/vars
+
+echo
+echo "Create Machine..."
+docker-machine create --driver "virtualbox" --virtualbox-cpu-count 2 --virtualbox-memory 4096 --virtualbox-disk-size 102400 $machine_name
+
+echo
+echo "Stop Machine..."
+docker-machine stop $machine_name
+
+echo
+echo "Start Machine..."
+docker-machine start $machine_name
+
+echo
+echo "Attach Machine to Terminal..."
+eval $(docker-machine env --shell bash $machine_name)
+
+echo
+echo "Build Deploy Image..."
+docker-compose --file docker-compose-deploy.yml build
+
+echo
+echo "Build Docker Images..."
+docker-compose build
+docker-compose --file docker-compose-jenkins.yml build

@@ -1,0 +1,44 @@
+#!/bin/bash
+
+echo
+echo "########################################################"
+echo "####              Push Docker Images                ####"
+echo "########################################################"
+echo
+
+source docker/deploy/vars
+
+echo
+echo "Build Images..."
+docker-compose build
+docker-compose --file docker-compose-jenkins.yml build
+
+echo
+echo "Tag Images for ECR..."
+sh docker/deploy/run "docker tag platform_database:latest $repository_url/platform_database:latest"
+sh docker/deploy/run "docker tag platform_jenkins:latest $repository_url/platform_jenkins:latest"
+sh docker/deploy/run "docker tag platform_server:latest $repository_url/platform_server:latest"
+sh docker/deploy/run "docker tag platform_deploy:latest $repository_url/platform_deploy:latest"
+
+sh docker/deploy/run "docker tag platform_intranet:latest $repository_url/platform_intranet:latest"
+sh docker/deploy/run "docker tag platform_website:latest $repository_url/platform_website:latest"
+sh docker/deploy/run "docker tag platform_api:latest $repository_url/platform_api:latest"
+
+echo
+echo "Push Images to ECR..."
+sh docker/deploy/run "docker push $repository_url/platform_database:latest"
+sh docker/deploy/run "docker push $repository_url/platform_jenkins:latest"
+sh docker/deploy/run "docker push $repository_url/platform_server:latest"
+sh docker/deploy/run "docker push $repository_url/platform_deploy:latest"
+
+sh docker/deploy/run "docker push $repository_url/platform_intranet:latest"
+sh docker/deploy/run "docker push $repository_url/platform_website:latest"
+sh docker/deploy/run "docker push $repository_url/platform_api:latest"
+
+echo
+echo "Clean Images..."
+source docker/deploy/clean
+
+echo
+echo "List Images..."
+sh docker/deploy/run "docker images"

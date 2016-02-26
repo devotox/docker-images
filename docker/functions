@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Docker scripts functions
+
+update_hosts() {
+	echo
+	# Copy over default hosts file
+	echo "Copy Default Hosts..."
+	cp -fv nginx/hosts docker/hosts
+
+	echo
+	# Replace with actual ip address
+	echo "Replace hosts file..."
+	echo "$machine_name IP ($machine_ip)"
+	sed -i -e "s|<docker-machine-ip>|$machine_ip|g" docker/hosts
+
+	echo
+	# Move to /etc/hosts
+	echo "Move hosts to correct location..."
+	sudo mv -fv docker/hosts /etc/hosts
+
+	echo
+	# Remove copied hosts file
+	echo "Clean up hosts file if it still remains..."
+	rm -rfv docker/hosts
+}

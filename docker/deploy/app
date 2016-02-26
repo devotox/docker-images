@@ -1,0 +1,13 @@
+#!/bin/bash
+
+echo
+echo "########################################################"
+echo "####              Deploy Docker Application         ####"
+echo "########################################################"
+echo
+
+source docker/deploy/vars
+
+echo
+echo "Deploy Application..."
+sh docker/deploy/run "bash docker/deploy/do-deploy $@"

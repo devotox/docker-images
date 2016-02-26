@@ -1,0 +1,13 @@
+#!/bin/bash
+
+echo
+echo "########################################################"
+echo "####          Destroy Docker Dev Environment        ####"
+echo "########################################################"
+echo
+
+source docker/vars
+
+echo
+echo "Delete Machine..."
+docker-machine rm -y $machine_name
