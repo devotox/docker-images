@@ -28,7 +28,7 @@ fi
 
 if [ -z "$deploy_target" ]
 then
-	read -p "Deploy Target [ doctify-testing | doctify-jenkins | doctify-intranet ]: " deploy_target
+	read -p "Deploy Target [ platform-testing | platform-jenkins | platform-intranet ]: " deploy_target
 fi
 
 if [ -z "$application_type" ]

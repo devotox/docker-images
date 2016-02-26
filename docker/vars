@@ -2,4 +2,4 @@
 
 # Docker scripts variables
 
-machine_name="doctify-dev"
+machine_name="platform-dev"
