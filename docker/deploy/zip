@@ -28,15 +28,15 @@ fi
 
 if [ -z "$deploy_target" ]
 then
-	read -p "Deploy Target [ platform-testing | platform-jenkins | platform-intranet ]: " deploy_target
+	read -p "Deploy Target [ doctify-testing | doctify-intranet | doctify-api ]: " deploy_target
 fi
 
 if [ -z "$application_type" ]
 then
-	read -p "Application To Deploy [ intranet | website | jenkins | api | full-monty ]: " application_type
+	read -p "Application To Deploy [ website | intranet | api | full-monty ]: " application_type
 fi
 
-types=("jenkins" "intranet" "website" "api" "full-monty")
+types=("intranet" "website" "api" "full-monty")
 
 if [[ " ${types[@]} " =~ " ${application_type} " ]]; then
     echo "Application Type Set ($application_type)..."

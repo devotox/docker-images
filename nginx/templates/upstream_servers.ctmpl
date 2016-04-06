@@ -1,0 +1,48 @@
+upstream api_server {
+	least_conn;
+	keepalive 512;
+	{{range service "api"}}server {{.Address}}:{{.Port}} max_fails=5 fail_timeout=30s weight=1;
+	{{else}}server 127.0.0.1:65535;{{end}}
+}
+
+upstream api_inspector_server {
+	least_conn;
+	keepalive 128;
+	{{range service "api-inspector"}}server {{.Address}}:{{.Port}} max_fails=5 fail_timeout=30s weight=1;
+	{{else}}server 127.0.0.1:65535;{{end}}
+}
+
+upstream consul_server {
+	least_conn;
+	keepalive 128;
+	{{range service "consul"}}server {{.Address}}:{{.Port}} max_fails=5 fail_timeout=30s weight=1;
+	{{else}}server 127.0.0.1:65535;{{end}}
+}
+
+upstream consul_web_server {
+	least_conn;
+	keepalive 128;
+	{{range service "consul-web"}}server {{.Address}}:{{.Port}} max_fails=5 fail_timeout=30s weight=1;
+	{{else}}server 127.0.0.1:65535;{{end}}
+}
+
+upstream intranet_ember_server {
+	least_conn;
+	keepalive 64;
+	{{range service "intranet-ember"}}server {{.Address}}:{{.Port}} max_fails=5 fail_timeout=30s weight=1;
+	{{else}}server 127.0.0.1:65535;{{end}}
+}
+
+upstream intranet_live_reload_server {
+	least_conn;
+	keepalive 64;
+	{{range service "intranet-live-reload"}}server {{.Address}}:{{.Port}} max_fails=5 fail_timeout=30s weight=1;
+	{{else}}server 127.0.0.1:65535;{{end}}
+}
+
+upstream website_live_reload_server {
+	least_conn;
+	keepalive 64;
+	{{range service "website-live-reload"}}server {{.Address}}:{{.Port}} max_fails=5 fail_timeout=30s weight=1;
+	{{else}}server 127.0.0.1:65535;{{end}}
+}

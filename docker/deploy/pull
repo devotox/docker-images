@@ -9,20 +9,22 @@ echo
 source docker/deploy/vars
 
 echo
-echo "Pull Images from Docker Hub..."
-sh docker/deploy/run "docker pull $repository_url/node:latest"
-sh docker/deploy/run "docker pull $repository_url/jenkins:latest"
-sh docker/deploy/run "docker pull $repository_url/registrator:latest"
+echo "Pull Images from ECR..."
+sh docker/deploy/run "docker pull ${repository_url}/${application_name}_intranet:latest"
+sh docker/deploy/run "docker pull ${repository_url}/${application_name}_website:latest"
+sh docker/deploy/run "docker pull ${repository_url}/${application_name}_server:latest"
+sh docker/deploy/run "docker pull ${repository_url}/${application_name}_api:latest"
 
 echo
-echo "Tag Images from Docker Hub..."
-sh docker/deploy/run "docker tag $repository_url/node:latest docker_node:latest"
-sh docker/deploy/run "docker tag $repository_url/jenkins:latest docker_jenkins:latest"
-sh docker/deploy/run "docker tag $repository_url/registrator:latest docker_registrator:latest"
+echo "Tag Images from ECR..."
+sh docker/deploy/run "docker tag ${repository_url}/${application_name}_intranet:latest ${application_name}_intranet:latest"
+sh docker/deploy/run "docker tag ${repository_url}/${application_name}_website:latest ${application_name}_website:latest"
+sh docker/deploy/run "docker tag ${repository_url}/${application_name}_server:latest ${application_name}_server:latest"
+sh docker/deploy/run "docker tag ${repository_url}/${application_name}_api:latest ${application_name}_api:latest"
 
 echo
 echo "Build Images..."
-docker-compose build
+docker-compose -p $application_name -f docker-compose/prod.yml build
 
 echo
 echo "Clean Images..."

@@ -1,9 +1,10 @@
 # Base image
 FROM gliderlabs/registrator
 
-# Install curl
+# Install dependencies
 RUN apk update && apk upgrade && \
-apk-install curl wget bash tree
+apk add curl wget bash tree && \
+rm -rf /var/cache/apk/*
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh

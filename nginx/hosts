@@ -1,0 +1,84 @@
+##
+# Host Database
+#
+# localhost is used to configure the loopback interface
+# when the system is booting.  Do not change this entry.
+##
+
+::1             localhost
+127.0.0.1	    localhost
+255.255.255.255	broadcasthost
+
+#########################################################
+
+<docker-machine-ip> no-exist.doctify.local.com
+
+#########################################################
+
+<docker-machine-ip> doctify.local.com
+<docker-machine-ip> doctify.local.co.uk
+<docker-machine-ip> www.doctify.local.com
+<docker-machine-ip> www.doctify.local.co.uk
+
+<docker-machine-ip> app.doctify.local.com
+<docker-machine-ip> app.doctify.local.co.uk
+<docker-machine-ip> www.app.doctify.local.com
+<docker-machine-ip> www.app.doctify.local.co.uk
+
+<docker-machine-ip> intranet.doctify.local.com
+<docker-machine-ip> intranet.doctify.local.co.uk
+<docker-machine-ip> www.intranet.doctify.local.com
+<docker-machine-ip> www.intranet.doctify.local.co.uk
+
+#########################################################
+
+<docker-machine-ip> consul.doctify.local.com
+<docker-machine-ip> consul.doctify.local.co.uk
+<docker-machine-ip> www.consul.doctify.local.com
+<docker-machine-ip> www.consul.doctify.local.co.uk
+
+<docker-machine-ip> consul-web.doctify.local.com
+<docker-machine-ip> consul-web.doctify.local.co.uk
+<docker-machine-ip> www.consul-web.doctify.local.com
+<docker-machine-ip> www.consul-web.doctify.local.co.uk
+
+#########################################################
+
+<docker-machine-ip> api.doctify.local.com
+<docker-machine-ip> api.doctify.local.co.uk
+<docker-machine-ip> www.api.doctify.local.com
+<docker-machine-ip> www.api.doctify.local.co.uk
+
+<docker-machine-ip> vpn.doctify.local.com
+<docker-machine-ip> vpn.doctify.local.co.uk
+<docker-machine-ip> www.vpn.doctify.local.com
+<docker-machine-ip> www.vpn.doctify.local.co.uk
+
+<docker-machine-ip> database.doctify.local.com
+<docker-machine-ip> database.doctify.local.co.uk
+<docker-machine-ip> www.database.doctify.local.com
+<docker-machine-ip> www.database.doctify.local.co.uk
+
+<docker-machine-ip> api-inspector.doctify.local.com
+<docker-machine-ip> api-inspector.doctify.local.co.uk
+<docker-machine-ip> www.api-inspector.doctify.local.com
+<docker-machine-ip> www.api-inspector.doctify.local.co.uk
+
+#########################################################
+
+<docker-machine-ip> platform.local.com
+<docker-machine-ip> platform.local.co.uk
+<docker-machine-ip> www.platform.local.com
+<docker-machine-ip> www.platform.local.co.uk
+
+<docker-machine-ip> intranet-beta.doctify.local.com
+<docker-machine-ip> intranet-beta.doctify.local.co.uk
+<docker-machine-ip> www.intranet-beta.doctify.local.com
+<docker-machine-ip> www.intranet-beta.doctify.local.co.uk
+
+<docker-machine-ip> website-beta.doctify.local.com
+<docker-machine-ip> website-beta.doctify.local.co.uk
+<docker-machine-ip> www.website-beta.doctify.local.com
+<docker-machine-ip> www.website-beta.doctify.local.co.uk
+
+#########################################################

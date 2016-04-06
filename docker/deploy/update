@@ -1,0 +1,33 @@
+#!/bin/bash
+
+echo
+echo "########################################################"
+echo "####          Update Docker & Dependencies          ####"
+echo "########################################################"
+echo
+
+source docker/deploy/vars
+
+echo
+echo  "Updating Homebrew and formulas..."
+brew update; brew upgrade
+
+echo
+echo "Updating Repository..."
+git fetch upstream; git merge --no-edit upstream/master
+
+echo
+echo "Start Machine..."
+docker-machine start $machine_name
+
+echo
+echo "Attach Machine to Terminal..."
+eval $(docker-machine env --shell bash $machine_name)
+
+echo
+echo "Updating Docker Images..."
+docker images | awk 'BEGIN {OFS=":";}NR<2 {next}{print $1, $2}' | xargs -L1 docker pull
+
+echo
+echo "Setup New Images..."
+source docker/setup

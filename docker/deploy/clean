@@ -6,6 +6,11 @@ echo "####        Clean Docker Images/Containers          ####"
 echo "########################################################"
 echo
 
+source docker/deploy/vars
+
+echo "Attach Machine to Terminal..."
+eval $(docker-machine env --shell bash $machine_name)
+
 # Remove all lingering containers not in use
 echo "Remove Lingering Containers..."
 docker rm -f $(docker ps --no-trunc -aq status=exited)
@@ -17,3 +22,7 @@ docker rm -v $(docker ps --no-trunc -aqf status=exited)
 # Remove all intermediary images
 echo "Remove Dangling images..."
 docker rmi -f $(docker images -aqf "dangling=true")
+
+# Remove dangling volumes
+#echo "Remove Dangling volumes"
+#docker volume rm $(docker volume ls -qf dangling=true)

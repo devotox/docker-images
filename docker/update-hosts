@@ -6,14 +6,16 @@ echo "####              Update Docker Dev Hosts           ####"
 echo "########################################################"
 echo
 
-source docker/vars
+if [ -z "$machine_name" ]; then
+	source docker/vars
+fi
 
 source docker/functions
 
 echo
 # Get Current IP
 echo "Retrieving Current IP Address..."
-ip=($(cat /etc/hosts | grep platform.local.com | sed -n '1p'))
+ip=($(cat /etc/hosts | grep doctify.local.com | sed -n '1p'))
 echo "Current IP: $ip"
 
 echo
@@ -23,7 +25,10 @@ machine_ip=$(docker-machine ip $machine_name)
 echo "Machine IP: $machine_ip"
 
 echo
-if [ "$ip" = "$machine_ip" ]; then
+if [ "$1" = "force" ]; then
+	echo "Forcing IP address update..."
+	update_hosts
+elif [ "$ip" = "$machine_ip" ]; then
 	echo "IP Addresses are matching. Exiting..."
 else
 	echo "IP Addresses differ. Updating..."

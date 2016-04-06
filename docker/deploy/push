@@ -10,19 +10,21 @@ source docker/deploy/vars
 
 echo
 echo "Build Images..."
-docker-compose build
+docker-compose -p $application_name -f docker-compose/prod.yml build
 
 echo
-echo "Tag Images for Docker Hub..."
-sh docker/deploy/run "docker tag docker_node:latest $repository_url/node:latest"
-sh docker/deploy/run "docker tag docker_jenkins:latest $repository_url/jenkins:latest"
-sh docker/deploy/run "docker tag docker_registrator:latest $repository_url/registrator:latest"
+echo "Tag Images for ECR..."
+sh docker/deploy/run "docker tag ${application_name}_intranet:latest ${repository_url}/${application_name}_intranet:latest"
+sh docker/deploy/run "docker tag ${application_name}_website:latest ${repository_url}/${application_name}_website:latest"
+sh docker/deploy/run "docker tag ${application_name}_server:latest ${repository_url}/${application_name}_server:latest"
+sh docker/deploy/run "docker tag ${application_name}_api:latest ${repository_url}/${application_name}_api:latest"
 
 echo
-echo "Push Images to Docker Hub..."
-sh docker/deploy/run "docker push $repository_url/node:latest"
-sh docker/deploy/run "docker push $repository_url/jenkins:latest"
-sh docker/deploy/run "docker push $repository_url/registrator:latest"
+echo "Push Images to ECR..."
+sh docker/deploy/run "docker push ${repository_url}/${application_name}_intranet:latest"
+sh docker/deploy/run "docker push ${repository_url}/${application_name}_website:latest"
+sh docker/deploy/run "docker push ${repository_url}/${application_name}_server:latest"
+sh docker/deploy/run "docker push ${repository_url}/${application_name}_api:latest"
 
 echo
 echo "Clean Images..."

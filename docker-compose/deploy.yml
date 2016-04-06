@@ -1,0 +1,17 @@
+version: '2'
+volumes:
+    deploy_data: {}
+services:
+    deploy:
+        privileged: true
+        container_name: doctify-deploy
+        entrypoint: bash -c
+        build:
+            context: ../deploy
+            dockerfile: Dockerfile
+        volumes:
+            - deploy_data:/root
+            - ~/.ssh:/root/.ssh
+            - ../:/var/app/current/platform
+            - /usr/local/bin/docker:/usr/bin/docker
+            - /var/run/docker.sock:/var/run/docker.sock

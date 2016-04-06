@@ -1,5 +1,5 @@
 # Base Image to use
-FROM node:slim
+FROM node:5.10.0-slim
 
 # File Author / Maintainer
 MAINTAINER Devonte Emokpae
@@ -8,7 +8,7 @@ MAINTAINER Devonte Emokpae
 RUN \
 	apt-get update  -y --no-install-recommends --fix-missing && \
 	apt-get upgrade -y --no-install-recommends --fix-missing && \
-	apt-get install -y --no-install-recommends --fix-missing apt-utils imagemagick nano && \
+	apt-get install -y --no-install-recommends --fix-missing apt-utils imagemagick nano curl && \
 	apt-get install -y --no-install-recommends --fix-missing ruby-full python-dev python-setuptools && \
 	apt-get install -y --no-install-recommends --fix-missing software-properties-common git-core build-essential automake unzip && \
 	apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -17,7 +17,7 @@ RUN \
 RUN \
 	git clone https://github.com/facebook/watchman.git && \
 	cd watchman && \
-	git checkout v4.4.0 && \
+	git checkout v4.5.0 && \
 	./autogen.sh && \
 	./configure && \
 	make && \
@@ -28,12 +28,16 @@ RUN \
 # Gem Installs
 RUN gem install sass --no-user-install
 
-# Install system / build tools
-RUN \
-	npm config set registry https://registry.npmjs.org/ && \
+# Install system / build / test tools
+RUN npm config set registry https://registry.npmjs.org/ && npm cache clean && \
 	npm install -g pm2 forever nodemon node-inspector \
-	bower gulp grunt-cli ember-cli broccoli-cli phantomjs \
-		--unsafe-perm --no-optional --no-progress && npm cache clean
+	jshint mocha karma-cli phantomjs-prebuilt \
+	bower gulp grunt-cli broccoli-cli \
+	ember-cli \
+	--no-optional \
+	--unsafe-perm \
+	--no-progress \
+	&& npm cache clean
 
 # Print Versions
 RUN echo "System Version: \n$(lsb_release -irc)" && \

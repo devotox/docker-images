@@ -9,11 +9,11 @@ echo
 source docker/deploy/vars
 
 source=$1
-destination="Dockerrun/aws.json"
+destination="aws/aws.json"
 
 if [ -z "$source" ]
 then
-	source="docker-compose-jenkins.yml"
+	source="docker-compose.yml"
 fi
 
 echo

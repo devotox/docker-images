@@ -1,0 +1,15 @@
+#!/bin/bash
+
+echo
+echo "########################################################"
+echo "####          Start Docker Prod Environment         ####"
+echo "########################################################"
+echo
+
+source docker/vars
+
+source docker/banner
+
+source docker/pre-compose
+
+source docker/compose prod

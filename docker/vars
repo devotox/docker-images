@@ -2,4 +2,10 @@
 
 # Docker scripts variables
 
-machine_name="platform-dev"
+machine_name="doctify-dev"
+
+application_name="doctify"
+
+openvpn_data="openvpn_data"
+
+application_url="vpn.$application_name.local.com"

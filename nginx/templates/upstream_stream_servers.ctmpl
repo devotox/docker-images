@@ -1,0 +1,5 @@
+upstream database_server {
+	hash $remote_addr consistent;
+	{{range service "database"}}server {{.Address}}:{{.Port}} max_fails=5 fail_timeout=30s weight=1;
+	{{else}}server 127.0.0.1:65535;{{end}}
+}

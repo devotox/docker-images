@@ -1,0 +1,15 @@
+#!/bin/bash
+
+echo
+echo "########################################################"
+echo "####          Create Docker VPN Configuration       ####"
+echo "########################################################"
+echo
+
+source docker/vars
+
+source docker/banner
+
+source docker/pre-compose
+
+source docker/compose vpn

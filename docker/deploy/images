@@ -9,11 +9,11 @@ echo
 source docker/deploy/vars
 
 echo
-echo "Pull Previous Images from Docker Hub..."
+echo "Pull Previous Images from ECR..."
 sh docker/deploy/pull
 
 echo
-echo "Push New Images to Docker Hub..."
+echo "Push New Images to ECR..."
 sh docker/deploy/push
 
 echo

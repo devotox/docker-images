@@ -6,6 +6,8 @@ echo "####          Initialize Docker Deploy GIT          ####"
 echo "########################################################"
 echo
 
+source docker/deploy/vars
+
 # Check if config already exists
 name="$(git config user.name)"
 email="$(git config user.email)"

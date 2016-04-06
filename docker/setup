@@ -26,5 +26,4 @@ eval $(docker-machine env --shell bash $machine_name)
 
 echo
 echo "Build Docker Images..."
-docker-compose build
-docker-compose --file docker-compose-jenkins.yml build
+docker-compose -p $application_name -f docker-compose/dev.yml build

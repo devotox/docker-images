@@ -10,7 +10,7 @@ source docker/deploy/vars
 
 echo
 echo "Setup Git..."
-sh docker/deploy/run "bash docker/deploy/git-config"
+sh docker/deploy/run "bash docker/deploy/create/git-config"
 
 echo
 echo "Setup AWS..."
@@ -21,5 +21,5 @@ echo "Setup Elastic Beanstalk..."
 sh docker/deploy/run "eb init"
 
 echo
-echo "Login To Docker Hub..."
-sh docker/deploy/run "\$(docker login)"
+echo "Login To Elastic Container Registry..."
+sh docker/deploy/run "\$(aws --region us-east-1 ecr get-login)"

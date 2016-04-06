@@ -28,15 +28,15 @@ fi
 
 if [ -z "$deploy_target" ]
 then
-	read -p "Deploy Target [ platform-testing | platform-jenkins | platform-intranet ]: " deploy_target
+	read -p "Deploy Target [ doctify-testing | doctify-intranet | doctify-api ]: " deploy_target
 fi
 
 if [ -z "$application_type" ]
 then
-	read -p "Application To Deploy [ intranet | website | jenkins | api | full-monty ]: " application_type
+	read -p "Application To Deploy [ website | intranet | api | full-monty ]: " application_type
 fi
 
-types=("jenkins" "intranet" "website" "api" "full-monty")
+types=("intranet" "website" "api" "full-monty")
 
 if [[ " ${types[@]} " =~ " ${application_type} " ]]; then
     echo "Application Type Set ($application_type)..."
@@ -62,6 +62,7 @@ echo
 sed -i -e "s|.ebextensions/environment.config|<env-config>|g" $gitignore_path
 sed -i -e "s|Dockerrun.aws.json|<docker-aws-config>|g" $gitignore_path
 sed -i -e "s|api/tests/config.js|<api-test-config>|g" $gitignore_path
+sed -i -e "s|secrets.env|<secrets-env>|g" $gitignore_path
 sed -i -e "s|sslcert/\*|<sslcert>|g" $gitignore_path
 
 echo
@@ -97,6 +98,7 @@ rm -rfv "Dockerrun.aws.json"
 sed -i -e "s|<env-config>|.ebextensions/environment.config|g" $gitignore_path
 sed -i -e "s|<docker-aws-config>|Dockerrun.aws.json|g" $gitignore_path
 sed -i -e "s|<api-test-config>|api/tests/config.js|g" $gitignore_path
+sed -i -e "s|<secrets-env>|secrets.env|g" $gitignore_path
 sed -i -e "s|<sslcert>|sslcert/\*|g" $gitignore_path
 
 # Revert recently added files to untracked
@@ -104,6 +106,7 @@ git reset HEAD .ebextensions/environment.config
 git reset HEAD docker/deploy/do-deploy
 git reset HEAD Dockerrun.aws.json
 git reset HEAD .gitignore
+git reset HEAD secrets.env
 git reset HEAD sslcert
 
 # Clean up deployment branch

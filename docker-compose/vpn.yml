@@ -1,0 +1,12 @@
+version: '2'
+volumes:
+    tmp: {}
+services:
+    openvpn:
+        image: kylemanna/openvpn
+        ports:
+            - 1194:1194/udp
+        volumes:
+            - ../openvpn:/etc/openvpn
+        cap_add:
+            - NET_ADMIN

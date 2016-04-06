@@ -1,0 +1,15 @@
+#!/bin/bash
+
+echo
+echo "########################################################"
+echo "####         Start Docker Intranet Environment      ####"
+echo "########################################################"
+echo
+
+source docker/vars
+
+source docker/banner
+
+source docker/pre-compose
+
+source docker/compose intranet

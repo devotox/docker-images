@@ -1,0 +1,151 @@
+version: '2'
+volumes:
+    tmp: {}
+    consul_data: {}
+    database_data: {}
+services:
+    database:
+        container_name: database
+        build:
+            context: ../database
+            dockerfile: Dockerfile
+        volumes:
+            - database_data:/var/lib/postgresql
+            - ../shared:/var/app/current/shared
+            - /var/log/postgresql
+        ports:
+            - 5432
+        extends:
+            service: base
+            file: ../shared/base.yml
+    server:
+        build:
+            context: ../nginx
+            dockerfile: Dockerfile
+        volumes:
+            - ../security:/var/app/current/security
+            - ../sslcert:/var/app/current/sslcert
+            - ../shared:/var/app/current/shared
+            - ../nginx:/etc/nginx
+            - /var/log/nginx
+            - tmp:/tmp
+        volumes_from:
+            - api
+            - website
+            - intranet
+            - database
+        ports:
+            - 80:80
+            - 443:443
+            - 5432:5432
+            - 38100:38100
+            - 39100:39100
+        extends:
+            service: base
+            file: ../shared/base.yml
+    api:
+        command: bash -c "gulp serve 2>&1 | tee -a /var/log/nodejs/api/api.log"
+        build:
+            context: ../api
+            dockerfile: Dockerfile
+        volumes:
+            - /var/app/current/api/bower_components
+            - ../sslcert:/var/app/current/sslcert
+            - /var/app/current/api/node_modules
+            - ../shared:/var/app/current/shared
+            - ../api:/var/app/current/api
+            - /var/log/nodejs/api
+            - /tmp/api
+        depends_on:
+            - database
+        ports:
+            - 3000
+            - 3001
+            - 9999
+        extends:
+            service: base
+            file: ../shared/base.yml
+    website:
+        privileged: true
+        command: bash -c "grunt serve 2>&1 | tee -a /var/log/nodejs/website/website.log"
+        build:
+            context: ../website
+            dockerfile: Dockerfile
+        volumes:
+            - /var/app/current/website/bower_components
+            - /var/app/current/website/node_modules
+            - ../website:/var/app/current/website
+            - ../shared:/var/app/current/shared
+            - /var/log/nodejs/website
+            - /tmp/website
+        ports:
+            - 9000
+            - 39000
+        extends:
+            service: base
+            file: ../shared/base.yml
+    intranet:
+        privileged: true
+        command: bash -c "ember serve 2>&1 | tee -a /var/log/nodejs/intranet/intranet.log"
+        build:
+            context: ../intranet
+            dockerfile: Dockerfile
+        volumes:
+            - /var/app/current/intranet/bower_components
+            - /var/app/current/intranet/node_modules
+            - ../intranet:/var/app/current/intranet
+            - ../shared:/var/app/current/shared
+            - /var/log/nodejs/intranet
+            - /tmp/intranet
+        ports:
+            - 4000
+            - 8000
+            - 38000
+        extends:
+            service: base
+            file: ../shared/base.yml
+    registrator:
+        image: devotox/registrator
+        volumes:
+            - /var/run/docker.sock:/tmp/docker.sock
+        depends_on:
+            - consul
+        links:
+            - consul
+        extends:
+            service: base
+            file: ../shared/base.yml
+    consul:
+        command: -data-dir=/data -ui-dir=/ui -server -bootstrap
+        image: progrium/consul
+        ports:
+            - 53
+            - 8301
+            - 8302
+            - 8400
+            - 53/udp
+            - 8301/udp
+            - 8302/udp
+            - 8300
+            - 8500
+        extends:
+            service: base
+            file: ../shared/base.yml
+    consul-template:
+        image: masm/consul-template
+        command: >
+            -consul consul:8500
+            -template /etc/nginx/templates/upstream_servers.ctmpl:/etc/nginx/conf.d/upstream_servers.conf
+            -template /etc/nginx/templates/upstream_stream_servers.ctmpl:/etc/nginx/conf.d/streams/upstream_servers.conf
+        volumes:
+            - /var/run/docker.sock:/tmp/docker.sock
+        volumes_from:
+            - server
+        depends_on:
+            - consul
+            - registrator
+        links:
+            - consul
+        extends:
+            service: base
+            file: ../shared/base.yml
