@@ -6,7 +6,7 @@ application_name="platform"
 
 openvpn_data="openvpn_data"
 
-aws_account_id="556352762989"
+aws_account_id="xxxxxxxxxxxx"
 
 machine_name="platform-dev-deploy"
 
