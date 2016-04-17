@@ -1,0 +1,27 @@
+#!/bin/bash
+
+echo
+echo "########################################################"
+echo "####          Restart Docker Dev Environment        ####"
+echo "########################################################"
+echo
+
+app=$1;
+
+if [ -z "$app" ]; then
+	app="dev";
+fi
+
+source docker/vars
+
+echo
+echo "Restart Machine..."
+docker-machine restart $machine_name
+
+echo
+echo "Regenerate Certificates..."
+docker-machine regenerate-certs $machine_name -f
+
+echo
+echo "Start Development..."
+source docker/start $app

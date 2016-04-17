@@ -36,7 +36,7 @@ RUN npm config set registry https://registry.npmjs.org/ && npm cache clean && \
 	npm install -g pm2 forever nodemon node-inspector \
 	jshint mocha karma-cli phantomjs-prebuilt \
 	bower gulp grunt-cli broccoli-cli \
-	ember-cli strongloop \
+	ember-cli \
 	--no-optional \
 	--unsafe-perm \
 	--no-progress \

@@ -1,0 +1,21 @@
+#!/bin/bash
+
+echo
+echo "########################################################"
+echo "####       Restart Docker Deploy Environment        ####"
+echo "########################################################"
+echo
+
+source docker/deploy/vars
+
+echo
+echo "Restart Machine..."
+docker-machine restart $machine_name
+
+echo
+echo "Regenerate Certificates..."
+docker-machine regenerate-certs $machine_name -f
+
+echo
+echo "Initialize Deployment..."
+source docker/deploy/start

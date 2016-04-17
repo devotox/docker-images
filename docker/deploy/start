@@ -1,0 +1,15 @@
+#!/bin/bash
+
+echo
+echo "########################################################"
+echo "####         Start Docker Deploy Environment        ####"
+echo "########################################################"
+echo
+
+source docker/deploy/vars
+
+source docker/deploy/banner
+
+source docker/deploy/pre-compose
+
+source docker/deploy/init

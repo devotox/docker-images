@@ -1,0 +1,31 @@
+#!/bin/bash
+
+echo
+echo "########################################################"
+echo "####              Pre Compose Environment           ####"
+echo "########################################################"
+echo
+
+if [ -z "$machine_name" ]; then
+	source docker/deploy/vars
+fi
+
+echo
+echo "Start Machine..."
+docker-machine start $machine_name
+
+echo
+echo "Attach Machine to Terminal..."
+eval $(docker-machine env --shell bash $machine_name)
+
+echo
+echo "Set Machine IP as Hostname..."
+export DOCKER_HOST_IP=$(docker-machine ip $machine_name)
+
+echo
+echo "Set Compose Timeout..."
+export COMPOSE_HTTP_TIMEOUT=180
+
+echo
+echo "Clean Docker Images..."
+source docker/deploy/clean
