@@ -8,6 +8,10 @@ echo
 
 source docker/deploy/vars
 
+echo
+echo "Start Machine..."
+docker-machine start $machine_name
+
 echo "Attach Machine to Terminal..."
 eval $(docker-machine env --shell bash $machine_name)
 

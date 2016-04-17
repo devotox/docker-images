@@ -46,3 +46,17 @@ upstream website_live_reload_server {
 	{{range service "website-live-reload"}}server {{.Address}}:{{.Port}} max_fails=5 fail_timeout=30s weight=1;
 	{{else}}server 127.0.0.1:65535;{{end}}
 }
+
+upstream jenkins_web_server {
+	least_conn;
+	keepalive 64;
+	{{range service "jenkins-web"}}server {{.Address}}:{{.Port}} max_fails=5 fail_timeout=30s weight=1;
+	{{else}}server 127.0.0.1:65535;{{end}}
+}
+
+upstream jenkins_worker_server {
+	least_conn;
+	keepalive 64;
+	{{range service "jenkins-worker"}}server {{.Address}}:{{.Port}} max_fails=5 fail_timeout=30s weight=1;
+	{{else}}server 127.0.0.1:65535;{{end}}
+}

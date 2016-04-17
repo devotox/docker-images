@@ -10,7 +10,7 @@ source docker/deploy/vars
 
 echo
 echo "Create Machine..."
-docker-machine create --driver "virtualbox" --virtualbox-cpu-count 2 --virtualbox-memory 4096 --virtualbox-disk-size 102400 $machine_name
+docker-machine create --driver "virtualbox" --virtualbox-cpu-count 2 --virtualbox-memory 2048 --virtualbox-disk-size 102400 $machine_name
 
 echo
 echo "Stop Machine..."
@@ -25,9 +25,14 @@ echo "Attach Machine to Terminal..."
 eval $(docker-machine env --shell bash $machine_name)
 
 echo
+echo "Set Machine IP as Hostname..."
+export DOCKER_HOST_IP=$(docker-machine ip $machine_name)
+
+echo
 echo "Build Deploy Image..."
-docker-compose -p $application_name --file docker-compose/deploy.yml build
+docker-compose -p $application_name -f docker-compose/deploy.yml build
 
 echo
 echo "Build Docker Images..."
-docker-compose -p $application_name -f docker-compose/dev.yml build
+docker-compose -p $application_name -f docker-compose/prod.yml build
+docker-compose -p $application_name -f docker-compose/jenkins.yml build

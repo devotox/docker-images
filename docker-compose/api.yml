@@ -1,7 +1,43 @@
 version: '2'
 volumes:
     tmp: {}
+    database_data: {}
 services:
+    database:
+        build:
+            context: ../database
+            dockerfile: Dockerfile
+        volumes:
+            - database_data:/var/lib/postgresql
+            - ../shared:/var/app/current/shared
+            - /var/log/postgresql
+        ports:
+            - 5432
+        extends:
+            service: base
+            file: ../shared/base.yml
+    api:
+        privileged: true
+        command: bash -c "sysctl -w fs.inotify.max_user_watches=1048576 && gulp serve 2>&1 | tee -a /var/log/api/api.log"
+        build:
+            context: ../api
+            dockerfile: Dockerfile
+        volumes:
+            - /var/app/current/api/bower_components
+            - ../sslcert:/var/app/current/sslcert
+            - /var/app/current/api/node_modules
+            - ../shared:/var/app/current/shared
+            - ../api:/var/app/current/api
+            - /var/log/api
+            - /tmp/api
+        depends_on:
+            - database
+        ports:
+            - 3000
+            - 9999
+        extends:
+            service: base
+            file: ../shared/base.yml
     server:
         build:
             context: ../nginx
@@ -15,28 +51,13 @@ services:
             - tmp:/tmp
         volumes_from:
             - api
+            - database
         ports:
             - 80:80
             - 443:443
-        extends:
-            service: base
-            file: ../shared/base.yml
-    api:
-        command: bash -c "gulp start-prod | tee -a /var/log/nodejs/api/api.log"
-        build:
-            context: ../api
-            dockerfile: Dockerfile
-        volumes:
-            - /var/app/current/api/bower_components
-            - ../sslcert:/var/app/current/sslcert
-            - /var/app/current/api/node_modules
-            - ../shared:/var/app/current/shared
-            - ../api:/var/app/current/api
-            - /var/log/nodejs/api
-            - /tmp/api
-        ports:
-            - 3000
-            - 3001
+            - 5432:5432
+            - 38100:38100
+            - 39100:39100
         extends:
             service: base
             file: ../shared/base.yml
@@ -58,17 +79,17 @@ services:
             - 53
             - 8301
             - 8302
+            - 8300
             - 8400
+            - 8500
             - 53/udp
             - 8301/udp
             - 8302/udp
-            - 8300
-            - 8500
         extends:
             service: base
             file: ../shared/base.yml
     consul-template:
-        image: masm/consul-template
+        image: devotox/consul-template
         command: >
             -consul consul:8500
             -template /etc/nginx/templates/upstream_servers.ctmpl:/etc/nginx/conf.d/upstream_servers.conf

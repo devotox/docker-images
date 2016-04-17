@@ -10,7 +10,7 @@ source docker/vars
 
 echo
 echo "Create Machine..."
-docker-machine create --driver "virtualbox" --virtualbox-cpu-count 2 --virtualbox-memory 4096 --virtualbox-disk-size 102400 $machine_name
+docker-machine create --driver "virtualbox" --virtualbox-cpu-count 2 --virtualbox-memory 2048 --virtualbox-disk-size 102400 $machine_name
 
 echo
 echo "Stop Machine..."
@@ -23,6 +23,10 @@ docker-machine start $machine_name
 echo
 echo "Attach Machine to Terminal..."
 eval $(docker-machine env --shell bash $machine_name)
+
+echo
+echo "Set Machine IP as Hostname..."
+export DOCKER_HOST_IP=$(docker-machine ip $machine_name)
 
 echo
 echo "Build Docker Images..."

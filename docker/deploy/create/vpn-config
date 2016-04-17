@@ -17,7 +17,7 @@ mkdir -pv "openvpn"
 echo
 echo "Generate OpenVPN Config..."
 docker run --name $openvpn_data -v /etc/openvpn busybox
-docker run --volumes-from $openvpn_data --rm kylemanna/openvpn ovpn_genconfig -u udp://$application_url:1194
+docker run --volumes-from $openvpn_data --rm kylemanna/openvpn ovpn_genconfig -u udp://$vpn_url:1194
 
 echo
 echo "Generate OpenVPN Keys..."

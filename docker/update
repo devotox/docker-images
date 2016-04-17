@@ -10,7 +10,11 @@ source docker/vars
 
 echo
 echo  "Updating Homebrew and formulas..."
-brew update; brew upgrade
+brew upgrade; brew update; brew cleanup; brew cask cleanup; brew prune
+
+echo
+echo  "Updating Global Node Modules..."
+npm install -g npm bower ember-cli strongloop mocha karma jshint eslint csslint
 
 echo
 echo "Updating Repository..."

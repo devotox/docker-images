@@ -20,9 +20,18 @@ echo
 if type docker > /dev/null 2>&1 ; then
 	echo "Docker Toolbox found, uninstalling..."
 	brew uninstall --force docker-machine-parallels
-	brew cask uninstall --force dockertoolbox
+	brew uninstall --force docker docker-compose docker-machine
 else
 	echo "Docker Toolbox not found, already uninstalled..."
+fi
+
+echo
+# Uninstall Watchman
+if type fswatch > /dev/null 2>&1 ; then
+	echo "Watchman found, uninstalling..."
+	brew uninstall --force watchman
+else
+	echo "Watchman not found, already uninstalled..."
 fi
 
 echo
@@ -31,7 +40,7 @@ if type fswatch > /dev/null 2>&1 ; then
 	echo "FS Watch found, uninstalling..."
 	brew uninstall --force fswatch
 else
-	echo "FS Watch found, already uninstalled..."
+	echo "FS Watch not found, already uninstalled..."
 fi
 
 echo
@@ -41,4 +50,13 @@ if type greadlink > /dev/null 2>&1 ; then
 	brew uninstall --force coreutils
 else
 	echo "GNU core utilities not found, already uninstalled..."
+fi
+
+echo
+# Uninstall GNU Sed command
+if [ ! type sed > /dev/null 2>&1 ]; then
+	echo "SED command found, uninstalling..."
+	brew uninstall --force gnu-sed
+else
+	echo "SED command not found, already uninstalled..."
 fi

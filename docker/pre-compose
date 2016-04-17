@@ -23,6 +23,10 @@ echo "Set Machine IP as Hostname..."
 export DOCKER_HOST_IP=$(docker-machine ip $machine_name)
 
 echo
+echo "Set Compose Timeout..."
+export COMPOSE_HTTP_TIMEOUT=180
+
+echo
 echo "Update Hosts IP..."
 source docker/update-hosts
 

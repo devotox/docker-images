@@ -9,6 +9,14 @@ echo
 source docker/deploy/vars
 
 echo
+echo "Start Machine..."
+docker-machine start $machine_name
+
+echo
+echo "Attach Machine to Terminal..."
+eval $(docker-machine env --shell bash $machine_name)
+
+echo
 echo "Setup Git..."
 sh docker/deploy/run "bash docker/deploy/create/git-config"
 

@@ -2,14 +2,14 @@
 
 # Docker deploy scripts variables
 
-application_name="doctify"
+application_name="platform"
 
 openvpn_data="openvpn_data"
 
 aws_account_id="556352762989"
 
-machine_name="doctify-dev-deploy"
+machine_name="platform-dev-deploy"
 
-application_url="vpn.$application_name.co.uk"
+vpn_url="vpn.$application_name.co.uk"
 
 repository_url="$aws_account_id.dkr.ecr.us-east-1.amazonaws.com"

@@ -1,8 +1,59 @@
 version: '2'
 volumes:
     tmp: {}
-    consul_data: {}
 services:
+    website:
+        command: bash -c "grunt build-prod | tee -a /var/log/website/website.log"
+        build:
+            context: ../website
+            dockerfile: Dockerfile
+        volumes:
+            - /var/app/current/website/bower_components
+            - /var/app/current/website/node_modules
+            - ../website:/var/app/current/website
+            - ../shared:/var/app/current/shared
+            - /var/log/website
+            - /tmp/website
+        volumes_from:
+            - api
+        extends:
+            service: base
+            file: ../shared/base.yml
+    intranet:
+        command: bash -c "ember build dist --environment=production | tee -a /var/log/intranet/intranet.log"
+        build:
+            context: ../intranet
+            dockerfile: Dockerfile
+        volumes:
+            - /var/app/current/intranet/bower_components
+            - /var/app/current/intranet/node_modules
+            - ../intranet:/var/app/current/intranet
+            - ../shared:/var/app/current/shared
+            - /var/log/intranet
+            - /tmp/intranet
+        volumes_from:
+            - api
+        extends:
+            service: base
+            file: ../shared/base.yml
+    api:
+        command: bash -c "gulp start-prod | tee -a /var/log/api/api.log"
+        build:
+            context: ../api
+            dockerfile: Dockerfile
+        volumes:
+            - /var/app/current/api/bower_components
+            - ../sslcert:/var/app/current/sslcert
+            - /var/app/current/api/node_modules
+            - ../shared:/var/app/current/shared
+            - ../api:/var/app/current/api
+            - /var/log/api
+            - /tmp/api
+        ports:
+            - 3000
+        extends:
+            service: base
+            file: ../shared/base.yml
     server:
         build:
             context: ../nginx
@@ -21,55 +72,6 @@ services:
         ports:
             - 80:80
             - 443:443
-        extends:
-            service: base
-            file: ../shared/base.yml
-    api:
-        command: bash -c "gulp start-prod | tee -a /var/log/nodejs/api/api.log"
-        build:
-            context: ../api
-            dockerfile: Dockerfile
-        volumes:
-            - /var/app/current/api/bower_components
-            - ../sslcert:/var/app/current/sslcert
-            - /var/app/current/api/node_modules
-            - ../shared:/var/app/current/shared
-            - ../api:/var/app/current/api
-            - /var/log/nodejs/api
-            - /tmp/api
-        ports:
-            - 3000
-            - 3001
-        extends:
-            service: base
-            file: ../shared/base.yml
-    website:
-        command: bash -c "grunt build-prod | tee -a /var/log/nodejs/website/website.log"
-        build:
-            context: ../website
-            dockerfile: Dockerfile
-        volumes:
-            - /var/app/current/website/bower_components
-            - /var/app/current/website/node_modules
-            - ../website:/var/app/current/website
-            - ../shared:/var/app/current/shared
-            - /var/log/nodejs/website
-            - /tmp/website
-        extends:
-            service: base
-            file: ../shared/base.yml
-    intranet:
-        command: bash -c "ember build dist | tee -a /var/log/nodejs/intranet/intranet.log"
-        build:
-            context: ../intranet
-            dockerfile: Dockerfile
-        volumes:
-            - /var/app/current/intranet/bower_components
-            - /var/app/current/intranet/node_modules
-            - ../intranet:/var/app/current/intranet
-            - ../shared:/var/app/current/shared
-            - /var/log/nodejs/intranet
-            - /tmp/intranet
         extends:
             service: base
             file: ../shared/base.yml
@@ -101,7 +103,7 @@ services:
             service: base
             file: ../shared/base.yml
     consul-template:
-        image: masm/consul-template
+        image: devotox/consul-template
         command: >
             -consul consul:8500
             -template /etc/nginx/templates/upstream_servers.ctmpl:/etc/nginx/conf.d/upstream_servers.conf

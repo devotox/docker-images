@@ -10,7 +10,11 @@ source docker/deploy/vars
 
 echo
 echo  "Updating Homebrew and formulas..."
-brew update; brew upgrade
+brew upgrade; brew update; brew cleanup; brew cask cleanup; brew prune
+
+echo
+echo  "Updating Global Node Modules..."
+npm install -g bower ember-cli strongloop mocha karma jshint npm
 
 echo
 echo "Updating Repository..."
@@ -27,6 +31,10 @@ eval $(docker-machine env --shell bash $machine_name)
 echo
 echo "Updating Docker Images..."
 docker images | awk 'BEGIN {OFS=":";}NR<2 {next}{print $1, $2}' | xargs -L1 docker pull
+
+echo
+echo "Setup Deploy..."
+source docker/deploy/setup
 
 echo
 echo "Setup New Images..."

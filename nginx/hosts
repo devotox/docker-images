@@ -11,58 +11,7 @@
 
 #########################################################
 
-<docker-machine-ip> no-exist.doctify.local.com
-
-#########################################################
-
-<docker-machine-ip> doctify.local.com
-<docker-machine-ip> doctify.local.co.uk
-<docker-machine-ip> www.doctify.local.com
-<docker-machine-ip> www.doctify.local.co.uk
-
-<docker-machine-ip> app.doctify.local.com
-<docker-machine-ip> app.doctify.local.co.uk
-<docker-machine-ip> www.app.doctify.local.com
-<docker-machine-ip> www.app.doctify.local.co.uk
-
-<docker-machine-ip> intranet.doctify.local.com
-<docker-machine-ip> intranet.doctify.local.co.uk
-<docker-machine-ip> www.intranet.doctify.local.com
-<docker-machine-ip> www.intranet.doctify.local.co.uk
-
-#########################################################
-
-<docker-machine-ip> consul.doctify.local.com
-<docker-machine-ip> consul.doctify.local.co.uk
-<docker-machine-ip> www.consul.doctify.local.com
-<docker-machine-ip> www.consul.doctify.local.co.uk
-
-<docker-machine-ip> consul-web.doctify.local.com
-<docker-machine-ip> consul-web.doctify.local.co.uk
-<docker-machine-ip> www.consul-web.doctify.local.com
-<docker-machine-ip> www.consul-web.doctify.local.co.uk
-
-#########################################################
-
-<docker-machine-ip> api.doctify.local.com
-<docker-machine-ip> api.doctify.local.co.uk
-<docker-machine-ip> www.api.doctify.local.com
-<docker-machine-ip> www.api.doctify.local.co.uk
-
-<docker-machine-ip> vpn.doctify.local.com
-<docker-machine-ip> vpn.doctify.local.co.uk
-<docker-machine-ip> www.vpn.doctify.local.com
-<docker-machine-ip> www.vpn.doctify.local.co.uk
-
-<docker-machine-ip> database.doctify.local.com
-<docker-machine-ip> database.doctify.local.co.uk
-<docker-machine-ip> www.database.doctify.local.com
-<docker-machine-ip> www.database.doctify.local.co.uk
-
-<docker-machine-ip> api-inspector.doctify.local.com
-<docker-machine-ip> api-inspector.doctify.local.co.uk
-<docker-machine-ip> www.api-inspector.doctify.local.com
-<docker-machine-ip> www.api-inspector.doctify.local.co.uk
+<docker-machine-ip> no-exist.platform.local.com
 
 #########################################################
 
@@ -71,14 +20,70 @@
 <docker-machine-ip> www.platform.local.com
 <docker-machine-ip> www.platform.local.co.uk
 
-<docker-machine-ip> intranet-beta.doctify.local.com
-<docker-machine-ip> intranet-beta.doctify.local.co.uk
-<docker-machine-ip> www.intranet-beta.doctify.local.com
-<docker-machine-ip> www.intranet-beta.doctify.local.co.uk
+<docker-machine-ip> app.platform.local.com
+<docker-machine-ip> app.platform.local.co.uk
+<docker-machine-ip> www.app.platform.local.com
+<docker-machine-ip> www.app.platform.local.co.uk
 
-<docker-machine-ip> website-beta.doctify.local.com
-<docker-machine-ip> website-beta.doctify.local.co.uk
-<docker-machine-ip> www.website-beta.doctify.local.com
-<docker-machine-ip> www.website-beta.doctify.local.co.uk
+<docker-machine-ip> intranet.platform.local.com
+<docker-machine-ip> intranet.platform.local.co.uk
+<docker-machine-ip> www.intranet.platform.local.com
+<docker-machine-ip> www.intranet.platform.local.co.uk
+
+#########################################################
+
+<docker-machine-ip> jenkins.platform.local.com
+<docker-machine-ip> jenkins.platform.local.co.uk
+<docker-machine-ip> www.jenkins.platform.local.com
+<docker-machine-ip> www.jenkins.platform.local.co.uk
+
+<docker-machine-ip> consul.platform.local.com
+<docker-machine-ip> consul.platform.local.co.uk
+<docker-machine-ip> www.consul.platform.local.com
+<docker-machine-ip> www.consul.platform.local.co.uk
+
+<docker-machine-ip> consul-web.platform.local.com
+<docker-machine-ip> consul-web.platform.local.co.uk
+<docker-machine-ip> www.consul-web.platform.local.com
+<docker-machine-ip> www.consul-web.platform.local.co.uk
+
+#########################################################
+
+<docker-machine-ip> api.platform.local.com
+<docker-machine-ip> api.platform.local.co.uk
+<docker-machine-ip> www.api.platform.local.com
+<docker-machine-ip> www.api.platform.local.co.uk
+
+<docker-machine-ip> vpn.platform.local.com
+<docker-machine-ip> vpn.platform.local.co.uk
+<docker-machine-ip> www.vpn.platform.local.com
+<docker-machine-ip> www.vpn.platform.local.co.uk
+
+<docker-machine-ip> database.platform.local.com
+<docker-machine-ip> database.platform.local.co.uk
+<docker-machine-ip> www.database.platform.local.com
+<docker-machine-ip> www.database.platform.local.co.uk
+
+<docker-machine-ip> api-inspector.platform.local.com
+<docker-machine-ip> api-inspector.platform.local.co.uk
+<docker-machine-ip> www.api-inspector.platform.local.com
+<docker-machine-ip> www.api-inspector.platform.local.co.uk
+
+#########################################################
+
+<docker-machine-ip> platform.local.com
+<docker-machine-ip> platform.local.co.uk
+<docker-machine-ip> www.platform.local.com
+<docker-machine-ip> www.platform.local.co.uk
+
+<docker-machine-ip> intranet-beta.platform.local.com
+<docker-machine-ip> intranet-beta.platform.local.co.uk
+<docker-machine-ip> www.intranet-beta.platform.local.com
+<docker-machine-ip> www.intranet-beta.platform.local.co.uk
+
+<docker-machine-ip> website-beta.platform.local.com
+<docker-machine-ip> website-beta.platform.local.co.uk
+<docker-machine-ip> www.website-beta.platform.local.com
+<docker-machine-ip> www.website-beta.platform.local.co.uk
 
 #########################################################

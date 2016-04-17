@@ -4,7 +4,7 @@ volumes:
 services:
     deploy:
         privileged: true
-        container_name: doctify-deploy
+        container_name: platform-deploy
         entrypoint: bash -c
         build:
             context: ../deploy
