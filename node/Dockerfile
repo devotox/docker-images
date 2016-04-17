@@ -1,8 +1,11 @@
 # Base Image to use
-FROM node:5.10.0-slim
+FROM node:5.10.1-slim
 
 # File Author / Maintainer
 MAINTAINER Devonte Emokpae
+
+# Set environment variables
+ENV TERM "xterm"
 
 # APT installs
 RUN \
@@ -33,7 +36,7 @@ RUN npm config set registry https://registry.npmjs.org/ && npm cache clean && \
 	npm install -g pm2 forever nodemon node-inspector \
 	jshint mocha karma-cli phantomjs-prebuilt \
 	bower gulp grunt-cli broccoli-cli \
-	ember-cli \
+	ember-cli strongloop \
 	--no-optional \
 	--unsafe-perm \
 	--no-progress \
