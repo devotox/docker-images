@@ -73,8 +73,8 @@ services:
             service: base
             file: ../shared/base.yml
     consul:
-        command: -data-dir=/data -ui-dir=/ui -server -bootstrap
-        image: progrium/consul
+        command: -bootstrap
+        image: gliderlabs/consul-server
         ports:
             - 53
             - 8301
