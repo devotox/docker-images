@@ -1,5 +1,0 @@
-#!/bin/bash
-
-source docker/deploy/vars
-
-docker-compose -p $application_name -f docker-compose/deploy.yml run deploy "$@"

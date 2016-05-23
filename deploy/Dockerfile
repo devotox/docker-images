@@ -4,8 +4,8 @@ FROM python:2-slim
 # File Author / Maintainer
 MAINTAINER Devonte Emokpae
 
-# Environment production
-ENV production "true"
+# Set environment variables
+ENV TERM "xterm"
 
 # APT installs
 RUN \

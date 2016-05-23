@@ -15,8 +15,13 @@ dir="etc/nginx"
 
 pid="/var/run/nginx.pid"
 
+resolvers="/etc/nginx/common/global/resolver.conf"
+
 # test for changes every n seconds
 time=1
+
+# Inital PID value from pid file
+pid_value=""
 
 # Get initial checksum values
 checksum_initial=$(tar --strip-components=2 -C / -cf - $dir | md5sum | awk '{print $1}')
@@ -30,20 +35,24 @@ nginx
 # the nginx configuration is tested and reloaded on success
 while true
 do
-    checksum_now=$(tar --strip-components=2 -C / -cf - $dir | md5sum | awk '{print $1}')
+	checksum_now=$(tar --strip-components=2 -C / -cf - $dir | md5sum | awk '{print $1}')
 
-    if [ $checksum_initial != $checksum_now ]; then
-        timestamp="$(date +"%d-%m-%Y") $(date +"%H:%M:%S")"
-        echo "[ NGINX ][ $timestamp ] A configuration file changed. Reloading..."
+	if [ $checksum_initial != $checksum_now ]; then
+		timestamp="$(date +"%d-%m-%Y") $(date +"%H:%M:%S")"
+		echo "[ NGINX ][ $timestamp ] A configuration file changed. Reloading..."
 
-        if [ -f "$pid" ]; then
-        	nginx -t && nginx -s reload
-        else
-        	nginx -t && nginx
+		if [ -f "$pid" ]; then
+			pid_value=`cat $pid`
 		fi
-    fi
 
-    checksum_initial=$checksum_now
+		if [ -f "$pid" ] && [ "$pid_value" != "" ]; then
+			nginx -t && nginx -s reload
+		else
+			nginx -t && nginx
+		fi
+	fi
 
-    sleep $time
+	checksum_initial=$checksum_now
+
+	sleep $time
 done

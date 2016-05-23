@@ -1,5 +1,5 @@
 # Base Image to use
-FROM node:5.10.1-slim
+FROM node:6.2.0
 
 # File Author / Maintainer
 MAINTAINER Devonte Emokpae
@@ -11,10 +11,15 @@ ENV TERM "xterm"
 RUN \
 	apt-get update  -y --no-install-recommends --fix-missing && \
 	apt-get upgrade -y --no-install-recommends --fix-missing && \
-	apt-get install -y --no-install-recommends --fix-missing apt-utils imagemagick nano curl && \
-	apt-get install -y --no-install-recommends --fix-missing ruby-full python-dev python-setuptools && \
-	apt-get install -y --no-install-recommends --fix-missing software-properties-common git-core build-essential automake unzip && \
+	apt-get install -y --no-install-recommends --fix-missing imagemagick graphicsmagick && \
+	apt-get install -y --no-install-recommends --fix-missing automake make cmake unzip gcc g++ && \
+	apt-get install -y --no-install-recommends --fix-missing apt-utils sudo nano curl wget lsof jq && \
+	apt-get install -y --no-install-recommends --fix-missing ruby-full python-dev python-setuptools apt-transport-https lsb-release && \
+	apt-get install -y --no-install-recommends --fix-missing software-properties-common git-core build-essential cron gnome-schedule && \
 	apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Update NPM
+RUN curl -L https://npmjs.org/install.sh | sh
 
 # Install Watchman
 RUN \
@@ -32,15 +37,15 @@ RUN \
 RUN gem install sass --no-user-install
 
 # Install system / build / test tools
-RUN npm config set registry https://registry.npmjs.org/ && npm cache clean && \
+RUN npm config set registry https://registry.npmjs.org/ && npm -g cache clean && \
 	npm install -g pm2 forever nodemon node-inspector \
-	jshint mocha karma-cli phantomjs-prebuilt \
-	bower gulp grunt-cli broccoli-cli \
-	ember-cli \
+	jshint eslint mocha karma-cli phantomjs-prebuilt \
+	bower gulp grunt-cli broccoli-cli ember-cli \
+	eslint-config-ember \
 	--no-optional \
 	--unsafe-perm \
 	--no-progress \
-	&& npm cache clean
+	&& npm -g cache clean
 
 # Print Versions
 RUN echo "System Version: \n$(lsb_release -irc)" && \

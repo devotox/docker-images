@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Usage:
+# docker exec -it doctify_jenkins_1 sh /var/jenkins/backup
+# docker cp doctify_jenkins_1:/var/jenkins/backups ./jenkins
+# docker cp doctify_jenkins_1:/var/jenkins_home/jobs/Doctify-Platform/config.xml ./jenkins
+
+echo
+echo "########################################################"
+echo "####                 Jenkins Backup                 ####"
+echo "########################################################"
+echo
+
+jenkins_user="jenkins"
+
+jenkins_home=$JENKINS_HOME
+
+archive_name="archive.tar.gz"
+
+archive_folder="jenkins-backup"
+
+archive_path="/var/jenkins/backups"
+
+sudo jenkins-backup $jenkins_home $archive_path/$archive_name

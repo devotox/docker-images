@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Usage:
+# docker exec -it doctify_jenkins_1 sh /var/jenkins/restore
+# Restart Jenkins: https://jenkins.doctify.local.com/restart
+
+echo
+echo "########################################################"
+echo "####                Jenkins Restore                 ####"
+echo "########################################################"
+echo
+
+jenkins_user="jenkins"
+
+jenkins_home=$JENKINS_HOME
+
+archive_name="archive.tar.gz"
+
+archive_folder="jenkins-backup"
+
+archive_path="/var/jenkins/backups"
+
+sudo tar xzvf $archive_path/$archive_name
+sudo cp -R $archive_folder/* $jenkins_home
+sudo chown $jenkins_user:$jenkins_user -R $jenkins_home
+sudo rm -rf $archive_folder

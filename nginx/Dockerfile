@@ -1,24 +1,42 @@
 # Set nginx base image
-FROM nginx:1.9.14
+FROM nginx:1.9.15
 
 # File Author / Maintainer
 MAINTAINER Devonte Emokpae
 
 # Environment production
 ENV TERM "xterm"
-ENV TESTING "false"
-ENV PRODUCTION "true"
+ENV API_KEY "1234567890"
 ENV NODE_ENV "production"
 
 # APT installs
 RUN \
 	apt-get update  -y --no-install-recommends --fix-missing && \
 	apt-get upgrade -y --no-install-recommends --fix-missing && \
-	apt-get install -y --no-install-recommends --fix-missing apt-utils nano curl && \
+	apt-get install -y --no-install-recommends --fix-missing automake make cmake unzip gcc g++ && \
+	apt-get install -y --no-install-recommends --fix-missing apt-utils sudo nano curl wget lsof jq && \
+	apt-get install -y --no-install-recommends --fix-missing ruby-full python-dev python-setuptools apt-transport-https lsb-release && \
+	apt-get install -y --no-install-recommends --fix-missing software-properties-common git-core build-essential cron gnome-schedule && \
 	apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Copy over nginx directory
-COPY . /etc/nginx
+# Install Amplify Agent
+# https://github.com/nginxinc/nginx-amplify-doc/blob/master/amplify-faq.md
+# https://github.com/nginxinc/nginx-amplify-doc/blob/master/amplify-guide.md
+# RUN curl -L https://github.com/nginxinc/nginx-amplify-agent/raw/master/packages/install.sh  > /tmp/amplify-agent-install.sh && \
+# 	sh /tmp/amplify-agent-install.sh && \
+# 	rm -f /tmp/amplify-agent-install.sh
+
+# Create amplify install
+COPY nginx-amplify-install.sh /tmp/amplify-install.sh
+RUN sh /tmp/amplify-install.sh
+
+# Create amplify-launch executable
+COPY nginx-amplify-launch.sh /bin/nginx-amplify-launch
+RUN chmod a+rx /bin/nginx-amplify-launch
+
+# Create nginx-watch executable
+COPY nginx-watch.sh /bin/nginx-watch
+RUN chmod a+rx /bin/nginx-watch
 
 # Set Work Directory
 WORKDIR /etc/nginx
@@ -26,15 +44,16 @@ WORKDIR /etc/nginx
 # Set Volume Directory
 VOLUME ["/etc/nginx", "/var/log/nginx"]
 
-# Create nginx-watch executable
-RUN \
-	cp -f nginx-watch.sh /bin/nginx-watch && \
-	chmod +x /bin/nginx-watch
+# # forward request and error logs to docker log collector
+RUN ln -sf /proc/1/fd/1 /var/log/nginx/access.log
+RUN ln -sf /proc/1/fd/2 /var/log/nginx/error.log
 
 # Expose port
-EXPOSE 80 443 5432 38100 39100
+EXPOSE 80 443 5432 6379 38100 39100
 
 # Find Nginx version
 RUN nginx -v
 
-CMD ["nginx-watch"]
+# Default command
+CMD ["nginx-amplify-launch"]
+# CMD ["nginx-watch"]
