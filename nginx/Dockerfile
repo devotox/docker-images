@@ -1,5 +1,5 @@
 # Set nginx base image
-FROM nginx:1.9.15
+FROM nginx:1.11.0
 
 # File Author / Maintainer
 MAINTAINER Devonte Emokpae
@@ -7,16 +7,16 @@ MAINTAINER Devonte Emokpae
 # Environment production
 ENV TERM "xterm"
 ENV API_KEY "1234567890"
-ENV NODE_ENV "production"
+ENV AMPLIFY_HOSTNAME ""
 
 # APT installs
 RUN \
-	apt-get update  -y --no-install-recommends --fix-missing && \
-	apt-get upgrade -y --no-install-recommends --fix-missing && \
-	apt-get install -y --no-install-recommends --fix-missing automake make cmake unzip gcc g++ && \
-	apt-get install -y --no-install-recommends --fix-missing apt-utils sudo nano curl wget lsof jq && \
-	apt-get install -y --no-install-recommends --fix-missing ruby-full python-dev python-setuptools apt-transport-https lsb-release && \
-	apt-get install -y --no-install-recommends --fix-missing software-properties-common git-core build-essential cron gnome-schedule && \
+	apt-get update  -y --no-install-recommends --no-install-suggests --fix-missing && \
+	apt-get upgrade -y --no-install-recommends --no-install-suggests --fix-missing && \
+	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing automake make cmake unzip gcc g++ && \
+	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing apt-utils sudo nano curl wget lsof jq && \
+	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing ruby-full python-dev python-setuptools apt-transport-https lsb-release && \
+	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing software-properties-common git-core build-essential cron gnome-schedule && \
 	apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Amplify Agent
@@ -43,10 +43,6 @@ WORKDIR /etc/nginx
 
 # Set Volume Directory
 VOLUME ["/etc/nginx", "/var/log/nginx"]
-
-# # forward request and error logs to docker log collector
-RUN ln -sf /proc/1/fd/1 /var/log/nginx/access.log
-RUN ln -sf /proc/1/fd/2 /var/log/nginx/error.log
 
 # Expose port
 EXPOSE 80 443 5432 6379 38100 39100

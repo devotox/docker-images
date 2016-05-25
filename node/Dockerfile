@@ -9,13 +9,13 @@ ENV TERM "xterm"
 
 # APT installs
 RUN \
-	apt-get update  -y --no-install-recommends --fix-missing && \
-	apt-get upgrade -y --no-install-recommends --fix-missing && \
-	apt-get install -y --no-install-recommends --fix-missing imagemagick graphicsmagick && \
-	apt-get install -y --no-install-recommends --fix-missing automake make cmake unzip gcc g++ && \
-	apt-get install -y --no-install-recommends --fix-missing apt-utils sudo nano curl wget lsof jq && \
-	apt-get install -y --no-install-recommends --fix-missing ruby-full python-dev python-setuptools apt-transport-https lsb-release && \
-	apt-get install -y --no-install-recommends --fix-missing software-properties-common git-core build-essential cron gnome-schedule && \
+	apt-get update  -y --no-install-recommends --no-install-suggests --fix-missing && \
+	apt-get upgrade -y --no-install-recommends --no-install-suggests --fix-missing && \
+	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing imagemagick graphicsmagick && \
+	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing automake make cmake unzip gcc g++ && \
+	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing apt-utils sudo nano curl wget lsof jq && \
+	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing ruby-full python-dev python-setuptools apt-transport-https lsb-release && \
+	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing software-properties-common git-core build-essential cron gnome-schedule && \
 	apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Update NPM

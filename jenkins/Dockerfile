@@ -12,14 +12,14 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
 
 # APT installs
 RUN \
-	apt-get update  -y --no-install-recommends --fix-missing && \
-	apt-get upgrade -y --no-install-recommends --fix-missing && \
-	apt-get install -y --no-install-recommends --fix-missing nodejs && \
-	apt-get install -y --no-install-recommends --fix-missing imagemagick graphicsmagick && \
-	apt-get install -y --no-install-recommends --fix-missing automake make cmake unzip gcc g++ && \
-	apt-get install -y --no-install-recommends --fix-missing apt-utils sudo nano curl wget lsof jq && \
-	apt-get install -y --no-install-recommends --fix-missing ruby-full python-dev python-setuptools && \
-	apt-get install -y --no-install-recommends --fix-missing software-properties-common git-core build-essential cron gnome-schedule && \
+	apt-get update  -y --no-install-recommends --no-install-suggests --fix-missing && \
+	apt-get upgrade -y --no-install-recommends --no-install-suggests --fix-missing && \
+	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing nodejs && \
+	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing imagemagick graphicsmagick && \
+	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing automake make cmake unzip gcc g++ && \
+	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing apt-utils sudo nano curl wget lsof jq && \
+	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing ruby-full python-dev python-setuptools && \
+	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing software-properties-common git-core build-essential cron gnome-schedule && \
 	apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Update NPM
@@ -29,11 +29,11 @@ RUN curl -L https://npmjs.org/install.sh | sh
 RUN curl -fsSL https://get.docker.com/ | sh
 
 # Install docker-compose
-RUN curl -L https://github.com/docker/compose/releases/download/1.6.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+RUN curl -L https://github.com/docker/compose/releases/download/1.7.1/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
 RUN chmod +x /usr/local/bin/docker-compose
 
 # Install docker-machine
-RUN curl -L https://github.com/docker/machine/releases/download/v0.6.0/docker-machine-`uname -s`-`uname -m` > /usr/local/bin/docker-machine
+RUN curl -L https://github.com/docker/machine/releases/download/v0.7.0/docker-machine-`uname -s`-`uname -m` > /usr/local/bin/docker-machine
 RUN chmod +x /usr/local/bin/docker-machine
 
 # Add jenkins user to sudoers file (to run docker commands)
