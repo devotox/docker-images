@@ -1,8 +1,11 @@
 # Base Image to use
-FROM jenkins:2.3
+FROM jenkinsci/jenkins:2.8
 
 # File Author / Maintainer
 MAINTAINER Devonte Emokpae
+
+# Environment
+ENV TERM "xterm"
 
 # Set user to root initially
 USER root
@@ -17,9 +20,10 @@ RUN \
 	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing nodejs && \
 	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing imagemagick graphicsmagick && \
 	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing automake make cmake unzip gcc g++ && \
-	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing apt-utils sudo nano curl wget lsof jq && \
-	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing ruby-full python-dev python-setuptools && \
-	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing software-properties-common git-core build-essential cron gnome-schedule && \
+	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing apt-utils sudo nano vim emacs curl wget lsof jq && \
+	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing ruby-full python-dev python-setuptools python-xattr && \
+	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing software-properties-common git-core build-essential && \
+	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing apt-transport-https lsb-release cron gnome-schedule mailutils && \
 	apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Update NPM
@@ -40,12 +44,13 @@ RUN chmod +x /usr/local/bin/docker-machine
 RUN echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
 
 # Add jenkins user to docker group
-RUN gpasswd -a jenkins docker && usermod -a -G docker jenkins
+# RUN gpasswd -a jenkins docker && usermod -a -G docker jenkins
 
 # Create jenkins Folders
 RUN mkdir -p /var/jenkins
 RUN mkdir -p /var/log/jenkins
 RUN mkdir -p /var/jenkins_home
+RUN mkdir -p /var/jenkins_home/.ssh
 
 # Create log file
 RUN touch /var/log/jenkins/jenkins.log

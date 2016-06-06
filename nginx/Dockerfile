@@ -1,10 +1,10 @@
 # Set nginx base image
-FROM nginx:1.11.0
+FROM nginx:1.11.1
 
 # File Author / Maintainer
 MAINTAINER Devonte Emokpae
 
-# Environment production
+# Environment
 ENV TERM "xterm"
 ENV API_KEY "1234567890"
 ENV AMPLIFY_HOSTNAME ""
@@ -14,9 +14,10 @@ RUN \
 	apt-get update  -y --no-install-recommends --no-install-suggests --fix-missing && \
 	apt-get upgrade -y --no-install-recommends --no-install-suggests --fix-missing && \
 	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing automake make cmake unzip gcc g++ && \
-	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing apt-utils sudo nano curl wget lsof jq && \
-	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing ruby-full python-dev python-setuptools apt-transport-https lsb-release && \
-	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing software-properties-common git-core build-essential cron gnome-schedule && \
+	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing apt-utils sudo nano vim emacs curl wget lsof jq && \
+	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing ruby-full python-dev python-setuptools python-xattr && \
+	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing software-properties-common git-core build-essential && \
+	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing apt-transport-https lsb-release cron gnome-schedule mailutils && \
 	apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Amplify Agent
