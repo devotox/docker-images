@@ -15,8 +15,6 @@ dir="etc/nginx"
 
 pid="/var/run/nginx.pid"
 
-resolvers="/etc/nginx/common/global/resolver.conf"
-
 # test for changes every n seconds
 time=1
 

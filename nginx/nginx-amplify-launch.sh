@@ -17,10 +17,6 @@ api_key=""
 amplify_hostname=""
 agent_conf_file="/etc/amplify-agent/agent.conf"
 
-# Launch nginx
-echo "starting nginx..."
-nginx -g "daemon off;" &
-
 # Check for an older version of the agent running
 if command -V pgrep > /dev/null 2>&1; then
 	agent_pid=`pgrep amplify-agent`
@@ -63,8 +59,10 @@ if [ -n "${api_key}" -o -n "${amplify_hostname}" ]; then
 	chown nginx ${agent_conf_file} > /dev/null 2>&1
 fi
 
+echo
 echo "starting amplify-agent.."
 service amplify-agent start > /dev/null 2>&1 < /dev/null
 
+echo
 echo "watching nginx..."
 nginx-watch

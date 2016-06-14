@@ -111,3 +111,5 @@ docker-workflow:1.4
 docker-build-publish:1.2.2
 async-http-client:1.7.24
 dockerhub-notification:2.0
+purge-build-queue-plugin:1.0
+purge-job-history:1.1
