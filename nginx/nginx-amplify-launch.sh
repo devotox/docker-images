@@ -36,6 +36,7 @@ test -n "${AMPLIFY_HOSTNAME}" && \
 	amplify_hostname=${AMPLIFY_HOSTNAME}
 
 if [ -n "${api_key}" -o -n "${amplify_hostname}" ]; then
+	echo
 	echo "updating ${agent_conf_file} ..."
 
 	if [ ! -f "${agent_conf_file}" ]; then
@@ -66,3 +67,4 @@ service amplify-agent start > /dev/null 2>&1 < /dev/null
 echo
 echo "watching nginx..."
 nginx-watch
+echo

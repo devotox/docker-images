@@ -1,5 +1,5 @@
 # Base Image to use
-FROM node:6.2.1
+FROM node:6.2.2
 
 # File Author / Maintainer
 MAINTAINER Devonte Emokpae
@@ -61,6 +61,7 @@ RUN npm config set registry https://registry.npmjs.org/ && npm -g cache clean &&
 # Print Versions
 RUN echo "System Version: \n$(lsb_release -irc)" && \
 	echo "Python Version: $(python --version)" && \
+	echo "Ember Version: $(ember -v)" && \
 	echo "Ruby Version: $(ruby -v)" && \
 	echo "Node Version: $(node -v)" && \
 	echo "NPM Version: $(npm -v)"
