@@ -10,7 +10,7 @@ ENV API_KEY "1234567890"
 ENV AMPLIFY_HOSTNAME ""
 
 # APT installs
-RUN \
+RUN DEBIAN_FRONTEND=noninteractive \
 	apt-get update  -y --no-install-recommends --no-install-suggests --fix-missing && \
 	apt-get upgrade -y --no-install-recommends --no-install-suggests --fix-missing && \
 	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing automake make cmake unzip gcc g++ && \

@@ -9,7 +9,7 @@ ENV TERM "xterm"
 ENV DISPLAY ":10"
 
 # APT installs
-RUN \
+RUN DEBIAN_FRONTEND=noninteractive \
 	apt-get update  -y --no-install-recommends --no-install-suggests --fix-missing && \
 	apt-get upgrade -y --no-install-recommends --no-install-suggests --fix-missing && \
 	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing imagemagick graphicsmagick && \
@@ -55,7 +55,6 @@ RUN npm config set registry https://registry.npmjs.org/ && npm -g cache clean &&
 	eslint-config-ember \
 	--no-optional \
 	--unsafe-perm \
-	--no-progress \
 	&& npm -g cache clean
 
 # Print Versions

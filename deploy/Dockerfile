@@ -8,7 +8,7 @@ MAINTAINER Devonte Emokpae
 ENV TERM "xterm"
 
 # APT installs
-RUN \
+RUN DEBIAN_FRONTEND=noninteractive \
 	apt-get update  -y --no-install-recommends --no-install-suggests --fix-missing && \
 	apt-get upgrade -y --no-install-recommends --no-install-suggests --fix-missing && \
 	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing \

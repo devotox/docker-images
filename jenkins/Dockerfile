@@ -1,5 +1,5 @@
 # Base Image to use
-FROM jenkinsci/jenkins:2.8
+FROM jenkinsci/jenkins:2.12
 
 # File Author / Maintainer
 MAINTAINER Devonte Emokpae
@@ -14,7 +14,7 @@ USER root
 RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
 
 # APT installs
-RUN \
+RUN DEBIAN_FRONTEND=noninteractive \
 	apt-get update  -y --no-install-recommends --no-install-suggests --fix-missing && \
 	apt-get upgrade -y --no-install-recommends --no-install-suggests --fix-missing && \
 	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing nodejs && \

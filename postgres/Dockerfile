@@ -7,12 +7,18 @@ MAINTAINER Devonte Emokpae
 # Set environment variables
 ENV TERM "xterm"
 
+# RUN sed -i -r "s/^#?(create_main_cluster = ).*$/#\1true/g" /etc/postgresql-common/createcluster.conf && \
+# 	sed -i -r "s/^#?(stats_temp_directory = ).*$/\1/g" /etc/postgresql-common/createcluster.conf
+
 # Install necessary packages
-RUN \
+RUN DEBIAN_FRONTEND=noninteractive \
 	apt-get update  -y --no-install-recommends --no-install-suggests --fix-missing && \
 	apt-get upgrade -y --no-install-recommends --no-install-suggests --fix-missing && \
-	apt-get install -y --fix-missing apt-utils postgis && \
+	apt-get install -y --fix-missing apt-utils postgis nano && \
 	apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN sed -i -r "s/^#?(create_main_cluster = ).*$/\1false/g" /etc/postgresql-common/createcluster.conf && \
+	sed -i -r "s/^#?(stats_temp_directory = ).*$/#\1/g" /etc/postgresql-common/createcluster.conf
 
 # Set up SSL
 COPY conf/ssl.conf /etc/postgresql-common/ssl.conf
