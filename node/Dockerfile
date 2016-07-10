@@ -1,5 +1,5 @@
 # Base Image to use
-FROM node:6.2.2
+FROM node:6.3.0
 
 # File Author / Maintainer
 MAINTAINER Devonte Emokpae
