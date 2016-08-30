@@ -27,7 +27,7 @@ RUN curl -L https://npmjs.org/install.sh | sh
 RUN \
 	git clone https://github.com/facebook/watchman.git && \
 	cd watchman && \
-	git checkout v4.5.0 && \
+	git checkout v4.6.0 && \
 	./autogen.sh && \
 	./configure && \
 	make && \
