@@ -1,5 +1,5 @@
 # Base Image to use
-FROM jenkinsci/jenkins:2.12
+FROM jenkinsci/jenkins:2
 
 # File Author / Maintainer
 MAINTAINER Devonte Emokpae
@@ -37,7 +37,7 @@ RUN curl -L https://github.com/docker/compose/releases/download/1.7.1/docker-com
 RUN chmod +x /usr/local/bin/docker-compose
 
 # Install docker-machine
-RUN curl -L https://github.com/docker/machine/releases/download/v0.7.0/docker-machine-`uname -s`-`uname -m` > /usr/local/bin/docker-machine
+RUN curl -L https://github.com/docker/machine/releases/download/v0.8.0/docker-machine-`uname -s`-`uname -m` > /usr/local/bin/docker-machine
 RUN chmod +x /usr/local/bin/docker-machine
 
 # Add jenkins user to sudoers file (to run docker commands)

@@ -1,5 +1,5 @@
 # Base Image to use
-FROM node:6.3.0
+FROM node:6.5.0
 
 # File Author / Maintainer
 MAINTAINER Devonte Emokpae
@@ -14,7 +14,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
 	apt-get upgrade -y --no-install-recommends --no-install-suggests --fix-missing && \
 	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing imagemagick graphicsmagick && \
 	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing automake make cmake unzip gcc g++ && \
-	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing apt-utils sudo nano vim emacs curl wget lsof jq xvfb && \
+	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing apt-utils sudo nano vim emacs curl wget lsof jq && \
 	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing ruby-full python-dev python-setuptools python-xattr && \
 	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing software-properties-common git-core build-essential && \
 	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing apt-transport-https lsb-release cron gnome-schedule mailutils && \
@@ -22,15 +22,6 @@ RUN DEBIAN_FRONTEND=noninteractive \
 
 # Update NPM
 RUN curl -L https://npmjs.org/install.sh | sh
-
-# install firefox 42
-RUN \
-	mkdir /tmp/firefox42 && \
-	cd /tmp/firefox42 && \
-	wget https://ftp.mozilla.org/pub/firefox/releases/42.0/linux-x86_64/en-GB/firefox-42.0.tar.bz2 && \
-	tar -xjf firefox-42.0.tar.bz2 && \
-	mv firefox /usr/local/firefox42 && \
-	ln -s /usr/local/firefox42/firefox /usr/bin/firefox
 
 # Install Watchman
 RUN \

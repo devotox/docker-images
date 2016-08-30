@@ -14,7 +14,7 @@ ENV TERM "xterm"
 RUN DEBIAN_FRONTEND=noninteractive \
 	apt-get update  -y --no-install-recommends --no-install-suggests --fix-missing && \
 	apt-get upgrade -y --no-install-recommends --no-install-suggests --fix-missing && \
-	apt-get install -y --fix-missing apt-utils postgis nano && \
+	apt-get install -y --fix-missing apt-utils postgis nano vim emacs && \
 	apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN sed -i -r "s/^#?(create_main_cluster = ).*$/\1false/g" /etc/postgresql-common/createcluster.conf && \
