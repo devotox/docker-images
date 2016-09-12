@@ -6,7 +6,6 @@ MAINTAINER Devonte Emokpae
 
 # Set environment variables
 ENV TERM "xterm"
-ENV DISPLAY ":10"
 
 # APT installs
 RUN DEBIAN_FRONTEND=noninteractive \

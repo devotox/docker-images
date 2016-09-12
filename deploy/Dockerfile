@@ -24,11 +24,11 @@ RUN \
 RUN curl -fsSL https://get.docker.com/ | sh
 
 # Install docker-compose
-RUN curl -L https://github.com/docker/compose/releases/download/1.7.1/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+RUN curl -L https://github.com/docker/compose/releases/download/1.8.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
 RUN chmod +x /usr/local/bin/docker-compose
 
 # Install docker-machine
-RUN curl -L https://github.com/docker/machine/releases/download/v0.8.0/docker-machine-`uname -s`-`uname -m` > /usr/local/bin/docker-machine
+RUN curl -L https://github.com/docker/machine/releases/download/v0.8.1/docker-machine-`uname -s`-`uname -m` > /usr/local/bin/docker-machine
 RUN chmod +x /usr/local/bin/docker-machine
 
 WORKDIR /var/app/current
