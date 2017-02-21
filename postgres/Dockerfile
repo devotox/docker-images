@@ -6,6 +6,8 @@ MAINTAINER Devonte Emokpae
 
 # Set environment variables
 ENV TERM "xterm"
+ENV POSTGIS_MAJOR 2.3
+ENV POSTGIS_VERSION 2.3.0+dfsg-2.pgdg80+1
 
 # RUN sed -i -r "s/^#?(create_main_cluster = ).*$/#\1true/g" /etc/postgresql-common/createcluster.conf && \
 # 	sed -i -r "s/^#?(stats_temp_directory = ).*$/\1/g" /etc/postgresql-common/createcluster.conf
@@ -14,11 +16,26 @@ ENV TERM "xterm"
 RUN DEBIAN_FRONTEND=noninteractive \
 	apt-get update  -y --no-install-recommends --no-install-suggests --fix-missing && \
 	apt-get upgrade -y --no-install-recommends --no-install-suggests --fix-missing && \
-	apt-get install -y --fix-missing apt-utils postgis nano vim emacs && \
+	apt-get install -y --no-install-recommends --fix-missing apt-utils postgis nano vim emacs wget curl && \
+	apt-get install -y --no-install-recommends --fix-missing unzip patch make postgresql-server-dev-9.5 && \
+	apt-get install -y --no-install-recommends postgresql-$PG_MAJOR-postgis-$POSTGIS_MAJOR=$POSTGIS_VERSION && \
+	apt-get install -y --no-install-recommends postgresql-$PG_MAJOR-postgis-$POSTGIS_MAJOR-scripts=$POSTGIS_VERSION && \
+		postgis=$POSTGIS_VERSION && \
 	apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN sed -i -r "s/^#?(create_main_cluster = ).*$/\1false/g" /etc/postgresql-common/createcluster.conf && \
 	sed -i -r "s/^#?(stats_temp_directory = ).*$/#\1/g" /etc/postgresql-common/createcluster.conf
+
+# Install pgTap
+RUN mkdir /tmp/pgTap && \
+	cd /tmp/pgTap && \
+	wget http://api.pgxn.org/dist/pgtap/0.96.0/pgtap-0.96.0.zip && \
+	unzip pgtap-0.96.0.zip && \
+	cd pgtap-0.96.0 && \
+	make && \
+	make install && \
+	cpan TAP::Parser::SourceHandler::pgTAP && \
+	cd /tmp && rm -rf /tmp/pgTap
 
 # Set up SSL
 COPY conf/ssl.conf /etc/postgresql-common/ssl.conf

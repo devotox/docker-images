@@ -1,5 +1,5 @@
 # Base Image to use
-FROM node:6.5.0
+FROM node:7.2.0
 
 # File Author / Maintainer
 MAINTAINER Devonte Emokpae
@@ -39,8 +39,8 @@ RUN gem install sass --no-user-install
 
 # Install system / build / test tools
 RUN npm config set registry https://registry.npmjs.org/ && npm -g cache clean && \
-	npm install -g pm2 forever nodemon node-inspector \
-	jshint eslint mocha karma-cli phantomjs-prebuilt \
+	npm install -g pm2 forever nodemon node-inspector serverless \
+	jshint eslint mocha karma-cli sidekick phantomjs-prebuilt \
 	bower gulp grunt-cli broccoli-cli ember-cli \
 	eslint-config-ember \
 	--no-optional \
