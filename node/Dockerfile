@@ -1,5 +1,5 @@
 # Base Image to use
-FROM node:7.2.0
+FROM node:7.6.0
 
 # File Author / Maintainer
 MAINTAINER Devonte Emokpae
@@ -26,7 +26,7 @@ RUN curl -L https://npmjs.org/install.sh | sh
 RUN \
 	git clone https://github.com/facebook/watchman.git && \
 	cd watchman && \
-	git checkout v4.6.0 && \
+	git checkout v4.7.0 && \
 	./autogen.sh && \
 	./configure && \
 	make && \
@@ -39,7 +39,7 @@ RUN gem install sass --no-user-install
 
 # Install system / build / test tools
 RUN npm config set registry https://registry.npmjs.org/ && npm -g cache clean && \
-	npm install -g pm2 forever nodemon node-inspector serverless \
+	npm install -g pm2 forever nodemon node-pre-gyp node-gyp node-inspector serverless \
 	jshint eslint mocha karma-cli sidekick phantomjs-prebuilt \
 	bower gulp grunt-cli broccoli-cli ember-cli \
 	eslint-config-ember \

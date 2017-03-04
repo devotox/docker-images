@@ -1,5 +1,5 @@
 # Base Image to use
-FROM consul:0.7.3
+FROM consul:0.7.5
 
 # File Author / Maintainer
 MAINTAINER Devonte Emokpae

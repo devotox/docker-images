@@ -1,5 +1,5 @@
 # Set nginx base image
-FROM nginx:1.11.6
+FROM nginx:1.11.10
 
 # File Author / Maintainer
 MAINTAINER Devonte Emokpae

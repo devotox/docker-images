@@ -21,9 +21,8 @@ RUN DEBIAN_FRONTEND=noninteractive \
 	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing apt-transport-https lsb-release cron mailutils && \
 	apt-get clean && rm -rf /var/lib/apt/lists/*
 
-
 # Add node apt repository
-RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_7.x | bash -
 
 # Install Node
 RUN DEBIAN_FRONTEND=noninteractive \

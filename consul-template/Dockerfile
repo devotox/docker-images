@@ -9,7 +9,7 @@ RUN apk update && apk upgrade && \
 apk add curl wget bash tree && \
 rm -rf /var/cache/apk/*
 
-ENV CONSUL_TEMPLATE_VERSION 0.15.0
+ENV CONSUL_TEMPLATE_VERSION 0.18.1
 
 RUN curl -sSL https://releases.hashicorp.com/consul-template/${CONSUL_TEMPLATE_VERSION}/consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.zip > /tmp/consul.zip && \
 	unzip /tmp/consul.zip -d /tmp && \
