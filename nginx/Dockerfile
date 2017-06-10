@@ -1,5 +1,5 @@
 # Set nginx base image
-FROM nginx:1.11.10
+FROM nginx:1.13
 
 # File Author / Maintainer
 MAINTAINER Devonte Emokpae
@@ -19,15 +19,26 @@ RUN DEBIAN_FRONTEND=noninteractive \
 	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing apt-utils sudo nano vim emacs curl wget telnet lsof jq && \
 	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing ruby-full python-dev python-setuptools python-xattr && \
 	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing software-properties-common git-core build-essential rsyslog ntpdate && \
-	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing apt-transport-https lsb-release cron gnome-schedule mailutils nginx-nr-agent && \
+	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing apt-transport-https lsb-release gnupg1 procps cron mailutils && \
 	apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Install the NGINX Amplify Agent
+RUN echo 'deb https://packages.amplify.nginx.com/debian/ jessie amplify-agent' > /etc/apt/sources.list.d/nginx-amplify.list \
+    && curl -fs https://nginx.org/keys/nginx_signing.key | apt-key add - > /dev/null 2>&1 \
+    && apt-get update \
+    && apt-get install -qqy nginx-amplify-agent nginx-nr-agent \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Keep the nginx logs inside the container
+RUN unlink /var/log/nginx/access.log \
+    && unlink /var/log/nginx/error.log \
+    && touch /var/log/nginx/access.log \
+    && touch /var/log/nginx/error.log \
+    && chown nginx /var/log/nginx/*log \
+    && chmod 644 /var/log/nginx/*log
 
 # Add default nginx configuration
 ADD nginx.conf /etc/nginx/nginx.conf
-
-# Create amplify install
-COPY nginx-amplify-install.sh /tmp/amplify-install.sh
-RUN sh /tmp/amplify-install.sh
 
 # Create amplify-launch executable
 COPY nginx-amplify-launch.sh /bin/nginx-amplify-launch
@@ -53,7 +64,7 @@ WORKDIR /etc/nginx
 VOLUME ["/etc/nginx", "/var/log/nginx"]
 
 # Expose port
-EXPOSE 80 443 5432 6379 38100 39100
+EXPOSE 80 443 5432 6379
 
 # Find Nginx version
 RUN nginx -v

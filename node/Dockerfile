@@ -1,5 +1,5 @@
 # Base Image to use
-FROM node:7.6.0
+FROM node:7
 
 # File Author / Maintainer
 MAINTAINER Devonte Emokpae
@@ -14,13 +14,13 @@ RUN DEBIAN_FRONTEND=noninteractive \
 	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing imagemagick graphicsmagick && \
 	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing automake make cmake unzip gcc g++ && \
 	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing apt-utils sudo nano vim emacs curl wget lsof jq && \
-	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing ruby-full python-dev python-setuptools python-xattr && \
+	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing ruby-full python-dev python-setuptools python-xattr python-snappy && \
 	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing software-properties-common git-core build-essential && \
 	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing apt-transport-https lsb-release cron gnome-schedule mailutils && \
 	apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Update NPM
-RUN curl -L https://npmjs.org/install.sh | sh
+# Gem Installs
+RUN gem install sass --no-user-install
 
 # Install Watchman
 RUN \
@@ -34,18 +34,14 @@ RUN \
 	cd ..  && \
 	rm -rf watchman
 
-# Gem Installs
-RUN gem install sass --no-user-install
-
 # Install system / build / test tools
-RUN npm config set registry https://registry.npmjs.org/ && npm -g cache clean && \
-	npm install -g pm2 forever nodemon node-pre-gyp node-gyp node-inspector serverless \
-	jshint eslint mocha karma-cli sidekick phantomjs-prebuilt \
-	bower gulp grunt-cli broccoli-cli ember-cli \
-	eslint-config-ember \
-	--no-optional \
-	--unsafe-perm \
-	&& npm -g cache clean
+RUN npm config set registry https://registry.npmjs.org/
+RUN npm install -g pm2 nodemon serverless
+RUN npm install -g jshint eslint mocha karma-cli sidekick
+RUN npm install -g eslint-config-ember eslint-config-loopback
+RUN npm install -g eslint-plugin-ember-suave eslint-plugin-flowtype
+RUN npm install -g bower gulp grunt-cli broccoli-cli ember-cli lib.cli
+RUN npm -g cache clean --force
 
 # Print Versions
 RUN echo "System Version: \n$(lsb_release -irc)" && \

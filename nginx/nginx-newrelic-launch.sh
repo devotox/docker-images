@@ -14,8 +14,8 @@
 #
 
 # Variables
-license_key=""
 imagename=""
+license_key=""
 nginx_status_url="http://127.0.0.1\/nginx_status"
 agent_conf_file="/etc/nginx-nr-agent/nginx-nr-agent.ini"
 
