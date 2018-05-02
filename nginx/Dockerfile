@@ -1,5 +1,5 @@
 # Set nginx base image
-FROM nginx:1.13
+FROM funkygibbon/nginx-pagespeed
 
 # File Author / Maintainer
 MAINTAINER Devonte Emokpae
@@ -13,29 +13,25 @@ ENV NEW_RELIC_LICENSE_KEY "1234567890"
 
 # APT installs
 RUN DEBIAN_FRONTEND=noninteractive \
-	apt-get update  -y --no-install-recommends --no-install-suggests --fix-missing && \
-	apt-get upgrade -y --no-install-recommends --no-install-suggests --fix-missing && \
-	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing automake make cmake unzip gcc g++ && \
-	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing apt-utils sudo nano vim emacs curl wget telnet lsof jq && \
-	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing ruby-full python-dev python-setuptools python-xattr && \
-	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing software-properties-common git-core build-essential rsyslog ntpdate && \
-	apt-get install -y --no-install-recommends --no-install-suggests --fix-missing apt-transport-https lsb-release gnupg1 procps cron mailutils && \
-	apt-get clean && rm -rf /var/lib/apt/lists/*
+	apt-get update  -y --no-install-recommends --no-install-suggests --fix-missing \
+	&& apt-get upgrade -y --no-install-recommends --no-install-suggests --fix-missing \
+	&& apt-get install -y --no-install-recommends --no-install-suggests --fix-missing automake make cmake unzip gcc g++ \
+	&& apt-get install -y --no-install-recommends --no-install-suggests --fix-missing apt-utils sudo nano vim emacs curl wget telnet lsof jq \
+	&& apt-get install -y --no-install-recommends --no-install-suggests --fix-missing ruby-full python-dev python-setuptools python-xattr \
+	&& apt-get install -y --no-install-recommends --no-install-suggests --fix-missing software-properties-common git-core build-essential rsyslog ntpdate \
+	&& apt-get install -y --no-install-recommends --no-install-suggests --fix-missing apt-transport-https lsb-release gnupg1 procps cron mailutils \
+	&& apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install the NGINX Amplify Agent
 RUN echo 'deb https://packages.amplify.nginx.com/debian/ jessie amplify-agent' > /etc/apt/sources.list.d/nginx-amplify.list \
     && curl -fs https://nginx.org/keys/nginx_signing.key | apt-key add - > /dev/null 2>&1 \
-    && apt-get update \
+    && apt-get update  -y --no-install-recommends --no-install-suggests --fix-missing \
     && apt-get install -qqy nginx-amplify-agent nginx-nr-agent \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Keep the nginx logs inside the container
-RUN unlink /var/log/nginx/access.log \
-    && unlink /var/log/nginx/error.log \
-    && touch /var/log/nginx/access.log \
-    && touch /var/log/nginx/error.log \
-    && chown nginx /var/log/nginx/*log \
-    && chmod 644 /var/log/nginx/*log
+RUN ln -sf /dev/stdout /var/log/nginx/access.log \
+    && ln -sf /dev/stderr /var/log/nginx/error.log
 
 # Add default nginx configuration
 ADD nginx.conf /etc/nginx/nginx.conf
@@ -45,8 +41,8 @@ COPY nginx-amplify-launch.sh /bin/nginx-amplify-launch
 RUN chmod a+rx /bin/nginx-amplify-launch
 
 # Create nginx-newrelic-launch executable
-COPY nginx-newrelic-launch.sh /bin/nginx-newrelic-launch
-RUN chmod a+rx /bin/nginx-newrelic-launch
+# COPY nginx-newrelic-launch.sh /bin/nginx-newrelic-launch
+# RUN chmod a+rx /bin/nginx-newrelic-launch
 
 # Create nginx-watch executable
 COPY nginx-watch.sh /bin/nginx-watch
