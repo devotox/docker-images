@@ -12,11 +12,11 @@ docker pull funkygibbon/nginx-pagespeed
 docker pull gcr.io/planet-4-151612/openresty
 
 # build
-docker build node -t doctify/node
-docker build nginx -t doctify/nginx
-docker build openresty -t doctify/openresty
+docker build node -t $user/node
+docker build nginx -t $user/nginx
+docker build openresty -t $user/openresty
 
 # push
-docker push doctify/node
-docker push doctify/nginx
-docker push doctify/openresty
+docker push $user/node
+docker push $user/nginx
+docker push $user/openresty
