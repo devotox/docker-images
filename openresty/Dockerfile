@@ -1,5 +1,5 @@
 # Set nginx base image
-FROM funkygibbon/nginx-pagespeed
+FROM gcr.io/planet-4-151612/openresty
 
 # File Author / Maintainer
 MAINTAINER Devonte Emokpae

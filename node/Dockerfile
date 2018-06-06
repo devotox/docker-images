@@ -1,5 +1,5 @@
 # Base Image to use
-FROM node:10
+FROM node:9.11.1
 
 # File Author / Maintainer
 MAINTAINER Devonte Emokpae
@@ -31,7 +31,7 @@ RUN git clone https://github.com/facebook/watchman.git \
     && ./configure \
     && make \
     && make install \
-    && cd ..  \
+    && cd ..
 
 # Install Yarn
 RUN curl -o- -L https://yarnpkg.com/install.sh | bash
